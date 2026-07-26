@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hợp Đồng Cầm Đồ - Mẫu Lãi Suất</title>
+  <style>
+    @media print {
+      @page {
+        size: A4;
+        margin: 20mm 15mm 20mm 15mm;
+      }
+      body {
+        background: none;
+        padding: 0;
+      }
+    }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #000;
+      margin: 0;
+      padding: 20px;
+      background-color: #fff;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+    .header-table td {
+      border: none;
+      padding: 0;
+      vertical-align: top;
+    }
+    .header-left {
+      width: 48%;
+      text-align: center;
+    }
+    .header-right {
+      width: 52%;
+      text-align: center;
+    }
+    .store-name {
+      font-weight: bold;
+      font-size: 16px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .store-sub {
+      font-size: 11px;
+      margin: 2px 0;
+    }
+    .contract-title {
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .contract-sub {
+      font-style: italic;
+      font-size: 12px;
+      margin: 2px 0;
+    }
+    .section-title {
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      padding-bottom: 2px;
+    }
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+    .info-table td {
+      border: none;
+      padding: 4px 0;
+      vertical-align: top;
+    }
+    .label-col {
+      font-weight: bold;
+      width: 130px;
+    }
+    .inline-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .inline-item {
+      margin-right: 15px;
+    }
+    .bold-val {
+      font-weight: bold;
+    }
+    .commitment-list {
+      margin: 0;
+      padding-left: 20px;
+      text-align: justify;
+    }
+    .commitment-list li {
+      margin-bottom: 6px;
+    }
+    .signatures-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 35px;
+    }
+    .signatures-table td {
+      border: none;
+      padding: 0;
+      text-align: center;
+      vertical-align: top;
+      width: 33.33%;
+    }
+    .signature-title {
+      font-weight: bold;
+      margin-bottom: 60px;
+    }
+    .signature-sub {
+      font-size: 11px;
+      font-style: italic;
+      color: #555;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header columns -->
+    <table class="header-table">
+      <tr>
+        <td class="header-left">
+          <div class="store-name">CẦM ĐỒ {{StoreName}}</div>
+          <div class="store-sub">Hotline: <strong>{{StorePhone}}</strong></div>
+          <div class="store-sub">Mã Giao Dịch: <strong>{{ContractCode}}</strong></div>
+        </td>
+        <td class="header-right">
+          <div class="contract-title">HỢP ĐỒNG CẦM ĐỒ</div>
+          <div class="contract-sub">(Kiêm phiếu chi tiền mặt)</div>
+          <div class="store-sub">Ngày: <strong>{{ContractDate}}</strong></div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- BÊN CHO VAY -->
+    <div class="section-title">BÊN CHO VAY</div>
+    <table class="info-table">
+      <tr>
+        <td class="label-col">Bên nhận cầm:</td>
+        <td class="bold-val">{{StoreName}}</td>
+      </tr>
+      <tr>
+        <td class="label-col">Người đại diện:</td>
+        <td>
+          <div class="inline-group">
+            <span class="inline-item">{{Representative}}</span>
+            <span class="inline-item">Điện thoại: <strong>{{StorePhone}}</strong></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col">Địa chỉ:</td>
+        <td>{{StoreAddress}}</td>
+      </tr>
+    </table>
+
+    <!-- BÊN VAY -->
+    <div class="section-title">BÊN VAY (BÊN CẦM TÀI SẢN)</div>
+    <table class="info-table">
+      <tr>
+        <td class="label-col">Họ và tên khách:</td>
+        <td class="bold-val">{{CustomerName}}</td>
+      </tr>
+      <tr>
+        <td class="label-col">Số CMND/CCCD:</td>
+        <td>
+          <div class="inline-group">
+            <span class="inline-item">{{IdentityNumber}}</span>
+            <span class="inline-item">Ngày cấp: {{IdentityIssueDate}}</span>
+            <span class="inline-item">Nơi cấp: {{IdentityIssuePlace}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col">Số điện thoại:</td>
+        <td>{{CustomerPhone}}</td>
+      </tr>
+      <tr>
+        <td class="label-col">Địa chỉ:</td>
+        <td>{{CustomerAddress}}</td>
+      </tr>
+    </table>
+
+    <!-- THÔNG TIN TÀI SẢN & GIẤY TỜ KÈM THEO -->
+    <div class="section-title">THÔNG TIN TÀI SẢN &amp; GIẤY TỜ KÈM THEO</div>
+    <table class="info-table">
+      <tr>
+        <td class="label-col">Loại tài sản:</td>
+        <td>
+          <div class="inline-group">
+            <span class="inline-item">{{AssetType}}</span>
+            <span class="inline-item">Chi tiết tài sản: <strong>{{AssetDetail}}</strong></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col">Số tiền vay:</td>
+        <td>
+          <span class="bold-val">{{LoanAmount}} VNĐ</span> 
+          <span>(Bằng chữ: <em>{{LoanAmountText}}</em>)</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="label-col">Thời hạn vay:</td>
+        <td>Từ ngày: <strong>{{LoanStartDate}}</strong> đến ngày: <strong>{{LoanEndDate}}</strong></td>
+      </tr>
+    </table>
+
+    <!-- CAM KẾT CỦA BÊN VAY -->
+    <div class="section-title">CAM KẾT CỦA BÊN VAY</div>
+    <ol class="commitment-list">
+      <li>Tự nguyện chi trả lệ phí: <strong>{{InterestRate}}%/T</strong>, tính theo số ngày thực tế vay.</li>
+      <li>Tôi cam kết tài sản thuộc quyền sở hữu hợp pháp của tôi và các giấy tờ đã xuất trình là bản gốc do các cơ quan quản lý nhà nước cấp. Nếu sai, tôi hoàn toàn chịu trách nhiệm trước pháp luật.</li>
+      <li>Tôi cam kết trả gốc và lệ phí đúng hạn. Hết thời hạn trên, tôi không đến chuộc lại tài sản hoặc trả lệ phí để kéo dài thêm thời hạn thì tài sản trên sẽ thuộc quyền sở hữu của Bên cho vay. Bên cho vay không có nghĩa vụ thông báo với Bên vay. Lúc đó, Hợp đồng này có giá trị như giấy bán tài sản của tôi. Bên cho vay được toàn quyền thanh lý để thu hồi vốn và toàn bộ số tiền thu được từ việc thanh lý.</li>
+      <li>Tôi thực hiện việc lập Hợp đồng này trong trạng thái tinh thần hoàn toàn minh mẫn, đã đọc kỹ và hiểu toàn bộ trách nhiệm và nghĩa vụ trả nợ vay số tiền trên. Tôi cam kết thực hiện tất cả các nội dung trong Hợp đồng này, ký tên và điểm chỉ dưới đây để làm bằng chứng.</li>
+    </ol>
+
+    <!-- Signatures -->
+    <table class="signatures-table">
+      <tr>
+        <td>
+          <div class="signature-title">THẨM ĐỊNH</div>
+          <div class="signature-sub">(Ký và ghi rõ họ tên)</div>
+        </td>
+        <td>
+          <div class="signature-title">TRƯỞNG PGDTT</div>
+          <div class="signature-sub">(Ký và ghi rõ họ tên)</div>
+        </td>
+        <td>
+          <div class="signature-title">NGƯỜI VAY</div>
+          <div class="signature-sub">(Ký, ghi rõ họ tên và điểm chỉ)</div>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-top: 30px;"></td>
+        <td style="padding-top: 30px;"></td>
+        <td style="padding-top: 30px; font-weight: bold;">{{CustomerName}}</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

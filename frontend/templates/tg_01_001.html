@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hợp Đồng Vay Trả Góp - {{ContractCode}}</title>
+    <style>
+        @page { size: A4; margin: 15mm; }
+        body { font-family: "Times New Roman", Times, serif; font-size: 13.5px; line-height: 1.5; color: #000; margin: 0; padding: 0; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: bold; }
+        .text-uppercase { text-transform: uppercase; }
+
+        .national-brand { text-align: center; margin-bottom: 20px; }
+        .national-brand h3 { margin: 0; font-size: 14px; }
+        .national-brand h4 { margin: 4px 0 0 0; font-size: 13px; }
+        .line-separator { width: 140px; border-bottom: 1px solid #000; margin: 6px auto 0 auto; }
+
+        .contract-title { text-align: center; margin: 20px 0 15px 0; }
+        .contract-title h2 { margin: 0; font-size: 17px; font-weight: bold; }
+
+        .section-title { font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 4px; font-size: 13.5px; }
+        .field-group { margin-bottom: 5px; }
+        .field-label { display: inline; }
+        .field-value { font-weight: bold; display: inline; }
+
+        .signatures { margin-top: 25px; page-break-inside: avoid; }
+        .signature-table { width: 100%; border-collapse: collapse; }
+        .signature-table td { width: 50%; text-align: center; vertical-align: top; border: none; }
+        .signature-space { height: 75px; }
+    </style>
+</head>
+<body>
+    <div class="national-brand">
+        <h3 class="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
+        <h4 class="font-bold">Độc lập - Tự do - Hạnh phúc</h4>
+        <div class="line-separator"></div>
+    </div>
+
+    <div class="contract-title">
+        <h2 class="text-uppercase">HỢP ĐỒNG CHO VAY TRẢ GÓP KỲ HẠN</h2>
+        <p style="font-style: italic; margin-top: 3px;">Số: {{ContractCode}}</p>
+    </div>
+
+    <div class="field-group">Hôm nay, ngày <span class="field-value">{{ContractDate}}</span>, các bên ký kết hợp đồng gồm có:</div>
+
+    <div class="section-title">Bên Vay Nợ (Bên A):</div>
+    <div class="field-group"><span class="field-label">Họ và tên: </span><span class="field-value">{{CustomerName}}</span></div>
+    <div class="field-group">
+        <span class="field-label">CCCD/CMND: </span><span class="field-value">{{IdentityNumber}}</span> &nbsp;|&nbsp;
+        <span class="field-label">Ngày cấp: </span><span class="field-value">{{IdentityIssueDate}}</span>
+    </div>
+    <div class="field-group"><span class="field-label">Địa chỉ: </span><span class="field-value">{{CustomerAddress}}</span></div>
+    <div class="field-group"><span class="field-label">Điện thoại: </span><span class="field-value">{{CustomerPhone}}</span></div>
+
+    <div class="section-title">Bên Cho Vay (Bên B):</div>
+    <div class="field-group"><span class="field-label">Đơn vị: </span><span class="field-value">{{StoreName}}</span></div>
+    <div class="field-group"><span class="field-label">Đại diện: </span><span class="field-value">{{Representative}}</span></div>
+    <div class="field-group"><span class="field-label">Địa chỉ: </span><span class="field-value">{{StoreAddress}}</span></div>
+    <div class="field-group"><span class="field-label">Hotline: </span><span class="field-value">{{StorePhone}}</span></div>
+
+    <div class="section-title">Điều 1: Thông tin gói vay trả góp</div>
+    <div>1. Số tiền thực giao khách: <span class="font-bold">{{LoanAmount}} VNĐ</span> (Bằng chữ: <span class="font-bold">{{LoanAmountText}}</span>).</div>
+    <div>2. Tỷ lệ/Hình thức đóng góp: <span class="font-bold">{{InterestRate}}</span> | Đóng theo: <span class="font-bold">{{PeriodType}}</span>.</div>
+    <div>3. Thời hạn vay: <span class="font-bold">{{LoanDuration}}</span> ngày (từ ngày {{LoanStartDate}} đến ngày {{LoanEndDate}}).</div>
+    <div>4. Số tiền phải đóng định kỳ: <span class="font-bold">{{RepaymentAmount}} VNĐ / kỳ</span> (Chu kỳ {{CycleDays}} {{PeriodType}}).</div>
+
+    <div class="section-title">Bảng Lịch Trình Đóng Tiền Chi Tiết</div>
+    {{PaymentScheduleTable}}
+
+    <div class="signatures">
+        <table class="signature-table">
+            <tr>
+                <td>
+                    <div class="font-bold text-uppercase">Bên Vay Nợ (Bên A)</div>
+                    <div style="font-size: 11px;">(Ký và ghi rõ họ tên)</div>
+                    <div class="signature-space"></div>
+                    <div class="font-bold">{{CustomerName}}</div>
+                </td>
+                <td>
+                    <div class="font-bold text-uppercase">Bên Cho Vay (Bên B)</div>
+                    <div style="font-size: 11px;">(Ký và đóng dấu)</div>
+                    <div class="signature-space"></div>
+                    <div class="font-bold">{{Representative}}</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

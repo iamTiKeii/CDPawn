@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Biên Nhận Cầm Đồ - {{ContractCode}}</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm 20mm;
+    }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13pt;
+      line-height: 1.6;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .font-bold { font-weight: bold; }
+    .font-italic { font-style: italic; }
+    .text-uppercase { text-transform: uppercase; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      line-height: 1.45;
+    }
+    .store-name {
+      font-size: 15pt;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .store-info {
+      font-size: 11pt;
+    }
+
+    .title-row {
+      margin: 25px 0 25px 0;
+      position: relative;
+    }
+    .title-text {
+      text-align: center;
+      font-size: 18pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .code-text {
+      position: absolute;
+      right: 0;
+      top: 4px;
+      font-size: 12pt;
+      font-weight: normal;
+    }
+
+    .info-section {
+      margin-bottom: 20px;
+      font-size: 13pt;
+    }
+    .info-line {
+      margin-bottom: 14px;
+    }
+
+    .footer-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    .footer-table td {
+      width: 50%;
+      vertical-align: top;
+      border: none;
+    }
+
+    .notes-section {
+      margin-top: 35px;
+      font-size: 11pt;
+      border-top: 1px dashed #666;
+      padding-top: 15px;
+      line-height: 1.5;
+    }
+    .notes-section ul {
+      margin: 5px 0;
+      padding-left: 20px;
+    }
+    .notes-section li {
+      margin-bottom: 4px;
+    }
+
+    @media print {
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Thông tin cửa hàng -->
+    <div class="header">
+      <div class="store-name">DỊCH VỤ CẦM ĐỒ - {{StoreName}}</div>
+      <div class="store-info">{{StoreAddress}}</div>
+      <div class="store-info">Hotline: {{StorePhone}}</div>
+    </div>
+
+    <!-- Tiêu đề & Mã HĐ -->
+    <div class="title-row">
+      <div class="title-text">BIÊN NHẬN CẦM ĐỒ</div>
+      <div class="code-text">Số: <b>{{ContractCode}}</b></div>
+    </div>
+
+    <!-- Thông tin chi tiết biên nhận -->
+    <div class="info-section">
+      <div class="info-line">
+        Chủ sở hữu tài sản: <span class="font-bold">{{CustomerName}}</span>
+        <span style="float: right;">Điện thoại: <span class="font-bold">{{CustomerPhone}}</span></span>
+      </div>
+      <div class="info-line">
+        Loại tài sản: <span class="font-bold">{{AssetType}} - {{AssetDetail}}</span>
+      </div>
+      <div class="info-line">
+        Số tiền cầm: <span class="font-bold">{{LoanAmount}} VNĐ</span>
+      </div>
+      <div class="info-line font-italic">
+        (Số tiền bằng chữ: <span class="font-bold">{{LoanAmountText}}</span>)
+      </div>
+      <div class="info-line">
+        Biên nhận cầm đồ có giá trị trong: <span class="font-bold">{{LoanDays}}</span> ngày, kể từ ngày cầm (<span class="font-bold">{{ContractDate}}</span>).
+      </div>
+    </div>
+
+    <!-- Bảng thông tin lãi suất & Chữ ký -->
+    <table class="footer-table">
+      <tr>
+        <td>
+          <div class="font-bold" style="text-decoration: underline; margin-bottom: 6px;">LÃI SUẤT:</div>
+          <div class="font-bold">{{InterestRate}}</div>
+        </td>
+        <td style="text-align: center;">
+          <div class="font-italic">{{ContractDayMonthYear}}</div>
+          <div class="font-bold" style="margin-top: 10px; text-transform: uppercase;">CHỦ CỬA HÀNG</div>
+          <div style="height: 70px;"></div>
+          <div class="font-bold">{{Representative}}</div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Điều khoản ghi chú -->
+    <div class="notes-section">
+      <u><b style="font-size: 12pt;">Ghi chú:</b></u>
+      <ul>
+        <li>Biên nhận có giá trị <b>{{LoanDays}}</b> ngày, nếu khách hàng không đến đóng tiền lãi hoặc chuộc, cửa hàng sẽ thanh lý, quý khách miễn thắc mắc hay khiếu nại.</li>
+        <li>Cửa hàng không phục vụ khách hàng dưới 18 tuổi.</li>
+        <li>Nếu quý khách hàng bị mất giấy biên nhận phải báo ngay cho cửa hàng.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

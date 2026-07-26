@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hợp Đồng Cầm Cố Tài Sản - {{ContractCode}}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm;
+        }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-justify { text-align: justify; }
+        .font-bold { font-weight: bold; }
+        .text-uppercase { text-transform: uppercase; }
+
+        .national-brand { margin-bottom: 20px; }
+        .national-brand h3 { margin: 0; font-size: 14px; letter-spacing: 0.5px; }
+        .national-brand h4 { margin: 4px 0 0 0; font-size: 13px; }
+        .line-separator { width: 140px; border-bottom: 1px solid #000; margin: 6px auto 0 auto; }
+
+        .contract-title { margin: 20px 0 15px 0; }
+        .contract-title h2 { margin: 0; font-size: 17px; }
+        .contract-title p { margin: 4px 0 0 0; font-style: italic; }
+
+        .section-title { font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 4px; font-size: 13.5px; }
+        .field-group { margin-bottom: 5px; }
+        .field-label { display: inline; }
+        .field-value { font-weight: bold; display: inline; }
+
+        .signatures { margin-top: 30px; page-break-inside: avoid; }
+        .signature-table { width: 100%; border-collapse: collapse; border: none; }
+        .signature-table td { border: none; width: 50%; text-align: center; vertical-align: top; padding: 5px; }
+        .signature-space { height: 75px; }
+
+        @media print {
+            body { width: 100%; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center national-brand">
+        <h3 class="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
+        <h4 class="font-bold">Độc lập - Tự do - Hạnh phúc</h4>
+        <div class="line-separator"></div>
+    </div>
+
+    <div class="text-center contract-title">
+        <h2 class="font-bold">HỢP ĐỒNG CẦM CỐ TÀI SẢN</h2>
+        <p>Số: {{ContractCode}}</p>
+    </div>
+
+    <div class="content-body">
+        <div class="field-group text-justify">
+            Hôm nay, ngày <span class="field-value">{{ContractDate}}</span>, tại <span class="field-value">{{StoreName}}</span>, chúng tôi gồm có:
+        </div>
+
+        <div class="section-title">Bên A (Bên cầm cố tài sản):</div>
+        <div class="field-group"><span class="field-label">Ông/Bà: </span><span class="field-value">{{CustomerName}}</span></div>
+        <div class="field-group">
+            <span class="field-label">CMND/CCCD: </span><span class="field-value">{{IdentityNumber}}</span> &nbsp;|&nbsp;
+            <span class="field-label">Ngày cấp: </span><span class="field-value">{{IdentityIssueDate}}</span> &nbsp;|&nbsp;
+            <span class="field-label">Nơi cấp: </span><span class="field-value">{{IdentityIssuePlace}}</span>
+        </div>
+        <div class="field-group"><span class="field-label">Địa chỉ: </span><span class="field-value">{{CustomerAddress}}</span></div>
+        <div class="field-group"><span class="field-label">Số điện thoại: </span><span class="field-value">{{CustomerPhone}}</span></div>
+
+        <div class="section-title">Bên B (Bên nhận cầm cố tài sản):</div>
+        <div class="field-group"><span class="field-label">Đơn vị: </span><span class="field-value">{{StoreName}}</span></div>
+        <div class="field-group"><span class="field-label">Người đại diện: </span><span class="field-value">{{Representative}}</span></div>
+        <div class="field-group"><span class="field-label">Địa chỉ: </span><span class="field-value">{{StoreAddress}}</span></div>
+        <div class="field-group"><span class="field-label">Hotline: </span><span class="field-value">{{StorePhone}}</span></div>
+
+        <div class="section-title">Điều 1: Số tiền vay & Lãi suất</div>
+        <div class="text-justify">
+            1. Số tiền cho vay: <span class="font-bold">{{LoanAmount}} VNĐ</span> (Bằng chữ: <span class="font-bold">{{LoanAmountText}}</span>).<br>
+            2. Lãi suất thỏa thuận: <span class="font-bold">{{InterestRate}}</span>.<br>
+            3. Ngày vay: <span class="font-bold">{{LoanStartDate}}</span> | Hạn trả gốc: <span class="font-bold">{{LoanEndDate}}</span>.
+        </div>
+
+        <div class="section-title">Điều 2: Tài sản cầm cố</div>
+        <div class="text-justify">
+            1. Loại tài sản: <span class="font-bold">{{AssetType}}</span>.<br>
+            2. Chi tiết tài sản: <span class="font-bold">{{AssetDetail}}</span>.<br>
+            3. Bên A cam đoan tài sản thuộc quyền sở hữu hợp pháp duy nhất của Bên A.
+        </div>
+
+        <div class="section-title">Điều 3: Cam kết chung & Xử lý tài sản</div>
+        <div class="text-justify">
+            1. Bên B có trách nhiệm bảo quản nguyên vẹn tài sản cầm cố trong thời gian cầm cố.<br>
+            2. Nếu quá thời hạn cam kết mà Bên A không chuộc tài sản hoặc gia hạn, Bên B có toàn quyền thanh lý tài sản để thu hồi nợ theo thỏa thuận.
+        </div>
+    </div>
+
+    <div class="signatures">
+        <table class="signature-table">
+            <tr>
+                <td>
+                    <span class="font-bold text-uppercase">Bên A (Bên Cầm Cố)</span><br>
+                    <span>(Ký và ghi rõ họ tên)</span>
+                    <div class="signature-space"></div>
+                    <span class="font-bold">{{CustomerName}}</span>
+                </td>
+                <td>
+                    <span class="font-bold text-uppercase">Bên B (Bên Nhận Cầm Cố)</span><br>
+                    <span>(Ký và đóng dấu)</span>
+                    <div class="signature-space"></div>
+                    <span class="font-bold">{{Representative}}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
