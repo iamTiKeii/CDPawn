@@ -9,7 +9,8 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { toast } from "../lib/toast";
 
-const baseURL = import.meta.env.PROD ? (import.meta.env.VITE_API_URL || "") : "";
+const rawBaseURL = import.meta.env.PROD ? (import.meta.env.VITE_API_URL || "") : "";
+const baseURL = rawBaseURL.replace(/\/+$/, "");
 
 const apiClient = axios.create({
   baseURL,
