@@ -403,11 +403,11 @@ export const Commodities: React.FC = () => {
         </div>
       </div>
 
-      {/* Main 2-Column Master-Detail Layout (50:50 equal split) */}
+      {/* Main 2-Column Master-Detail Layout (7:5 — list wider, form narrower) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* ── LEFT COLUMN: DANH SÁCH HÀNG HÓA (lg:col-span-6) ── */}
-        <div className="lg:col-span-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+        {/* ── LEFT COLUMN: DANH SÁCH HÀNG HÓA (lg:col-span-7) ── */}
+        <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex flex-col">
           
           {/* Header & Controls */}
           <div className="p-4 border-b border-slate-100 bg-slate-50/50 space-y-3">
@@ -589,8 +589,8 @@ export const Commodities: React.FC = () => {
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: CÁC THÔNG TIN CẦN TẠO/SỬA HÀNG HÓA (lg:col-span-6) ── */}
-        <div className="lg:col-span-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
+        {/* ── RIGHT COLUMN: CÁC THÔNG TIN CẦN TẠO/SỬA HÀNG HÓA (lg:col-span-5) ── */}
+        <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
           
           {/* Header */}
           <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
