@@ -72,22 +72,6 @@ export const ContractLoanSection: React.FC<LoanSectionProps> = ({
               />
             </div>
           </div>
-
-          {/* Date */}
-          <div className="flex items-center">
-            <label className={labelClass}>
-              Ngày đầu tư <span className="text-red-500">*</span>
-            </label>
-            <div className="grow">
-              <input
-                type="date"
-                value={state.loanDate}
-                onChange={(e) => onChange({ loanDate: e.target.value })}
-                className="input input-bordered w-full max-w-md bg-white border-slate-200 rounded-lg text-slate-800 h-10 text-sm focus:outline-none"
-                required
-              />
-            </div>
-          </div>
         </div>
       </div>
     );
@@ -223,22 +207,6 @@ export const ContractLoanSection: React.FC<LoanSectionProps> = ({
           </div>
         </div>
 
-        {/* Field 6: Ngày vay */}
-        <div className="flex items-center">
-          <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-sm select-none">
-            Ngày vay <span className="text-red-500">*</span>
-          </label>
-          <div className="grow max-w-md">
-            <input
-              type="date"
-              value={state.loanDate || ""}
-              onChange={(e) => onChange({ loanDate: e.target.value })}
-              className="input input-bordered w-full bg-white border-slate-200 rounded-lg text-slate-800 h-10 text-sm focus:outline-none"
-              required
-            />
-          </div>
-        </div>
-
         {/* Field 7: Thu tiền trước */}
         <div className="flex items-center pt-1">
           <div className="w-[140px] shrink-0"></div>
@@ -340,24 +308,6 @@ export const ContractLoanSection: React.FC<LoanSectionProps> = ({
             </div>
           </div>
         </div>
-        <div className="flex items-center"></div>
-
-        {/* Start Date */}
-        <div className="flex items-center">
-          <label className={labelClass}>
-            Ngày vay <span className="text-red-500">*</span>
-          </label>
-          <div className="grow">
-            <input
-              type="date"
-              value={state.loanDate}
-              onChange={(e) => onChange({ loanDate: e.target.value })}
-              className="input input-bordered w-full max-w-md bg-white border-slate-200 rounded-lg text-slate-800 h-10 text-sm focus:outline-none"
-              required
-            />
-          </div>
-        </div>
-        <div className="flex items-center"></div>
       </div>
     </div>
   );

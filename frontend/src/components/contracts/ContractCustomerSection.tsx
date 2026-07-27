@@ -45,82 +45,104 @@ export const ContractCustomerSection: React.FC<CustomerSectionProps> = ({
     suffix = `-${num}`;
   }
 
+  let dateLabel = "Ngày vay";
+  if (config?.type === "pawn") dateLabel = "Ngày cầm";
+  else if (config?.type === "unsecured") dateLabel = "Ngày giải ngân";
+  else if (config?.type === "capital") dateLabel = "Ngày đầu tư";
+
   const labelClass =
     "w-[120px] text-right pr-3 font-bold text-slate-700 shrink-0 text-sm select-none";
 
   return (
     <div className="space-y-4">
-      {/* Centered Radio Selection */}
-      {!isEditMode && (
-        <div className="flex justify-center gap-6 mt-2 mb-4">
-          <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-700 text-sm">
-            <input
-              type="radio"
-              name="customerType"
-              checked={state.customerType === "new"}
-              onChange={() =>
-                onChange({
-                  customerType: "new",
-                  customerId: "",
-                  customerName: "",
-                  customerIdCard: "",
-                  customerIdCardDate: "",
-                  customerIdCardPlace: "",
-                  customerPhone: "",
-                  customerAddress: "",
-                  customerSearchQuery: "",
-                })
-              }
-              className="radio radio-sm radio-primary"
-            />
-            <span>Khách mới</span>
+      {/* Top Header Row with Date Input (left) & Customer Type Radio (right) */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-1 mb-3 pb-3 border-b border-slate-100">
+        {/* Top Left: Date Input */}
+        <div className="flex items-center gap-2">
+          <label className="font-bold text-slate-700 text-sm whitespace-nowrap select-none">
+            {dateLabel} <span className="text-red-500">*</span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-700 text-sm">
-            <input
-              type="radio"
-              name="customerType"
-              checked={state.customerType === "existing"}
-              onChange={() =>
-                onChange({
-                  customerType: "existing",
-                  customerId: "",
-                  customerName: "",
-                  customerIdCard: "",
-                  customerIdCardDate: "",
-                  customerIdCardPlace: "",
-                  customerPhone: "",
-                  customerAddress: "",
-                  customerSearchQuery: "",
-                })
-              }
-              className="radio radio-sm radio-primary"
-            />
-            <span>Khách cũ</span>
-          </label>
-
-          {/* Eye Icon for History */}
-          {state.customerType === "existing" && onViewHistory && (
-            <button
-              type="button"
-              onClick={() => {
-                if (state.customerId) {
-                  onViewHistory(state.customerId, state.customerName);
-                }
-              }}
-              className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${
-                !state.customerId
-                  ? "opacity-40 cursor-not-allowed text-slate-400 border-slate-200 bg-slate-50"
-                  : "text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 cursor-pointer"
-              }`}
-              title="Xem lịch sử giao dịch của khách"
-              disabled={!state.customerId}
-            >
-              <History className="w-3.5 h-3.5" />
-              <span>Lịch sử GD</span>
-            </button>
-          )}
+          <input
+            type="date"
+            value={state.loanDate || ""}
+            onChange={(e) => onChange({ loanDate: e.target.value })}
+            className="input input-bordered bg-white border-slate-200 rounded-lg text-slate-800 h-9 text-sm focus:outline-none w-[165px]"
+            required
+          />
         </div>
-      )}
+
+        {/* Top Center/Right: Radio Selection for New / Existing Customer */}
+        {!isEditMode && (
+          <div className="flex items-center gap-6">
+            <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-700 text-sm select-none">
+              <input
+                type="radio"
+                name="customerType"
+                checked={state.customerType === "new"}
+                onChange={() =>
+                  onChange({
+                    customerType: "new",
+                    customerId: "",
+                    customerName: "",
+                    customerIdCard: "",
+                    customerIdCardDate: "",
+                    customerIdCardPlace: "",
+                    customerPhone: "",
+                    customerAddress: "",
+                    customerSearchQuery: "",
+                  })
+                }
+                className="radio radio-sm radio-primary"
+              />
+              <span>Khách mới</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-700 text-sm select-none">
+              <input
+                type="radio"
+                name="customerType"
+                checked={state.customerType === "existing"}
+                onChange={() =>
+                  onChange({
+                    customerType: "existing",
+                    customerId: "",
+                    customerName: "",
+                    customerIdCard: "",
+                    customerIdCardDate: "",
+                    customerIdCardPlace: "",
+                    customerPhone: "",
+                    customerAddress: "",
+                    customerSearchQuery: "",
+                  })
+                }
+                className="radio radio-sm radio-primary"
+              />
+              <span>Khách cũ</span>
+            </label>
+
+            {/* Eye Icon for History */}
+            {state.customerType === "existing" && onViewHistory && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (state.customerId) {
+                    onViewHistory(state.customerId, state.customerName);
+                  }
+                }}
+                className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${
+                  !state.customerId
+                    ? "opacity-40 cursor-not-allowed text-slate-400 border-slate-200 bg-slate-50"
+                    : "text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 cursor-pointer"
+                }`}
+                title="Xem lịch sử giao dịch của khách"
+                disabled={!state.customerId}
+              >
+                <History className="w-3.5 h-3.5" />
+                <span>Lịch sử GD</span>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Grid Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">

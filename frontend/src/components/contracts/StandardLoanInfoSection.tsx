@@ -398,22 +398,6 @@ export const StandardLoanInfoSection: React.FC<StandardLoanInfoSectionProps> = (
             * Lưu ý: Theo Bộ luật Dân sự, lãi suất cho vay tối đa không được vượt quá 20%/năm. Vượt quá mức này là vi phạm pháp luật. Đặc biệt, hành vi cho vay với lãi suất từ 100%/năm trở lên có thể bị truy cứu trách nhiệm hình sự theo Điều 201 Bộ luật Hình sự.
           </span>
         </div>
-
-        {/* Row 7: 8. Ngày vay * & empty cell */}
-        <div className="flex items-center">
-          <label className={labelClass}>
-            {config.type === "pawn" ? "Ngày cầm" : config.type === "unsecured" ? "Ngày giải ngân" : "Ngày vay"} <span className="text-red-500">*</span>
-          </label>
-          <div className="grow">
-            <input
-              type="date"
-              value={state.loanDate}
-              onChange={(e) => onChange({ loanDate: e.target.value })}
-              className="input input-bordered w-full bg-white border-slate-200 rounded-lg text-slate-800 h-10 text-sm focus:outline-none"
-              required
-            />
-          </div>
-        </div>
       </div>
     </div>
   );
