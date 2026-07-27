@@ -113,7 +113,7 @@ export const ContractForm: React.FC<ContractFormProps> = ({
           customerSearchQuery: initialData.customer?.full_name || initialData.investor_name || "",
 
           contractCodeNumber: codeNum,
-          loanAmount: initialData.loan_amount || initialData.disbursed_amount || initialData.amount || "",
+          loanAmount: initialData.disbursed_amount || initialData.loan_amount || initialData.amount || "",
           repaymentAmount: initialData.repayment_amount || "",
           loanDate: formatDateForInput(initialData.loan_date || initialData.start_date || initialData.investment_date) || new Date().toISOString().split("T")[0],
           loanDays: convertDaysToDisplayUnit(rawDays, itCode),
