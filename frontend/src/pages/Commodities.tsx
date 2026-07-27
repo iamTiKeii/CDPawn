@@ -388,7 +388,7 @@ export const Commodities: React.FC = () => {
   const currentRecords = sorted.slice(indexOfFirstRecord, indexOfLastRecord);
 
   return (
-    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans pb-10">
+    <div className="space-y-6 text-slate-800 animate-fade-in max-w-[1600px] mx-auto font-sans pb-10">
       
       {/* Title */}
       <div className="flex items-center justify-between">
@@ -403,11 +403,11 @@ export const Commodities: React.FC = () => {
         </div>
       </div>
 
-      {/* Main 2-Column Master-Detail Layout */}
+      {/* Main 2-Column Master-Detail Layout (5 / 7 split) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* ── LEFT COLUMN: DANH SÁCH HÀNG HÓA (lg:col-span-6) ── */}
-        <div className="lg:col-span-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+        {/* ── LEFT COLUMN: DANH SÁCH HÀNG HÓA (lg:col-span-5) ── */}
+        <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex flex-col">
           
           {/* Header & Controls */}
           <div className="p-4 border-b border-slate-100 bg-slate-50/50 space-y-3">
@@ -466,7 +466,7 @@ export const Commodities: React.FC = () => {
           </div>
 
           {/* Table List */}
-          <div className="overflow-x-auto min-h-[400px] max-h-[600px] overflow-y-auto">
+          <div className="overflow-x-auto min-h-[400px] max-h-[650px] overflow-y-auto">
             {loading ? (
               <div className="flex justify-center p-16">
                 <span className="loading loading-spinner loading-lg text-emerald-500"></span>
@@ -589,8 +589,8 @@ export const Commodities: React.FC = () => {
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: CÁC THÔNG TIN CẦN TẠO/SỬA HÀNG HÓA (lg:col-span-6) ── */}
-        <div className="lg:col-span-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
+        {/* ── RIGHT COLUMN: CÁC THÔNG TIN CẦN TẠO/SỬA HÀNG HÓA (lg:col-span-7) ── */}
+        <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
           
           {/* Header */}
           <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
@@ -610,225 +610,250 @@ export const Commodities: React.FC = () => {
             )}
           </div>
 
-          {/* Inline Form */}
-          <form onSubmit={handleSave} className="p-5 space-y-5 text-xs text-slate-700">
+          {/* Inline Form with Flex Rows */}
+          <form onSubmit={handleSave} className="p-6 space-y-6 text-xs text-slate-700">
             
-            {/* PHẦN 1: Thông tin cơ bản */}
+            {/* PHẦN 1: Thông tin hàng hoá */}
             <div className="space-y-3">
-              <h3 className="font-bold text-xs text-blue-600 uppercase border-b border-slate-100 pb-1 flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+              <h3 className="font-bold text-xs text-blue-600 uppercase border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-blue-600" />
                 <span>1. Thông tin hàng hoá</span>
               </h3>
 
-              <div className="grid grid-cols-12 gap-3 items-center">
+              <div className="space-y-3">
                 {/* Category */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Lĩnh vực <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8">
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="select select-bordered select-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9"
-                    required
-                  >
-                    <option value="pawn">Cầm đồ</option>
-                    <option value="unsecured">Tín chấp</option>
-                  </select>
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Lĩnh vực <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="select select-bordered select-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-medium"
+                      required
+                    >
+                      <option value="pawn">Cầm đồ</option>
+                      <option value="unsecured">Tín chấp</option>
+                    </select>
+                  </div>
                 </div>
 
                 {/* Code */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Mã hàng <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8">
-                  <input
-                    type="text"
-                    placeholder="VD: XM, DTD, LTOP..."
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 font-bold text-xs rounded-lg uppercase h-9"
-                    required
-                    disabled={isEditMode}
-                  />
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Mã hàng <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <input
+                      type="text"
+                      placeholder="VD: XM, DTD, LTOP..."
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 font-bold text-xs rounded-lg uppercase h-9"
+                      required
+                      disabled={isEditMode}
+                    />
+                  </div>
                 </div>
 
                 {/* Name */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Tên hàng hoá <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8">
-                  <input
-                    type="text"
-                    placeholder="VD: Xe máy, Điện thoại, Máy tính..."
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-semibold"
-                    required
-                  />
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Tên hàng hoá <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <input
+                      type="text"
+                      placeholder="VD: Xe máy, Điện thoại, Máy tính..."
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-semibold"
+                      required
+                    />
+                  </div>
                 </div>
 
                 {/* Status */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Trạng thái
-                </label>
-                <div className="col-span-8 flex items-center gap-6">
-                  <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700">
-                    <input
-                      type="radio"
-                      name="inlineStatus"
-                      checked={status === "active"}
-                      onChange={() => setStatus("active")}
-                      className="radio radio-xs radio-primary"
-                    />
-                    <span>Hoạt động</span>
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Trạng thái
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700">
-                    <input
-                      type="radio"
-                      name="inlineStatus"
-                      checked={status === "inactive"}
-                      onChange={() => setStatus("inactive")}
-                      className="radio radio-xs radio-primary"
-                    />
-                    <span>Đã tạm dừng</span>
-                  </label>
+                  <div className="grow flex items-center gap-6">
+                    <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700 text-xs">
+                      <input
+                        type="radio"
+                        name="inlineStatus"
+                        checked={status === "active"}
+                        onChange={() => setStatus("active")}
+                        className="radio radio-xs radio-primary"
+                      />
+                      <span>Hoạt động</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700 text-xs">
+                      <input
+                        type="radio"
+                        name="inlineStatus"
+                        checked={status === "inactive"}
+                        onChange={() => setStatus("inactive")}
+                        className="radio radio-xs radio-primary"
+                      />
+                      <span>Đã tạm dừng</span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* PHẦN 2: Cấu hình giá trị mặc định */}
             <div className="space-y-3 pt-2">
-              <h3 className="font-bold text-xs text-blue-600 uppercase border-b border-slate-100 pb-1 flex items-center gap-1.5">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-blue-600" />
+              <h3 className="font-bold text-xs text-blue-600 uppercase border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
+                <SlidersHorizontal className="w-4 h-4 text-blue-600" />
                 <span>2. Định mức & Lãi suất mặc định</span>
               </h3>
 
-              <div className="grid grid-cols-12 gap-3 items-center">
+              <div className="space-y-3">
                 {/* Interest Type */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Hình thức lãi <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8 flex items-center gap-3">
-                  <select
-                    value={interestTypeId}
-                    onChange={(e) => setInterestTypeId(e.target.value)}
-                    className="select select-bordered select-sm flex-1 bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-medium"
-                    required
-                  >
-                    {interestTypes.map((it) => (
-                      <option key={it.id} value={it.id}>{it.name}</option>
-                    ))}
-                  </select>
-
-                  {/* Upfront interest checkbox */}
-                  <label className="flex items-center gap-1.5 cursor-pointer select-none font-bold text-slate-700 shrink-0">
-                    <input
-                      type="checkbox"
-                      checked={isUpfrontInterest}
-                      onChange={(e) => setIsUpfrontInterest(e.target.checked)}
-                      className="checkbox checkbox-xs checkbox-primary border-slate-300 rounded"
-                    />
-                    <span>Thu lãi trước</span>
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Hình thức lãi <span className="text-red-500">*</span>
                   </label>
+                  <div className="grow flex items-center gap-3">
+                    <select
+                      value={interestTypeId}
+                      onChange={(e) => setInterestTypeId(e.target.value)}
+                      className="select select-bordered select-sm flex-1 bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-medium"
+                      required
+                    >
+                      {interestTypes.map((it) => (
+                        <option key={it.id} value={it.id}>{it.name}</option>
+                      ))}
+                    </select>
+
+                    <label className="flex items-center gap-1.5 cursor-pointer select-none font-bold text-slate-700 shrink-0 text-xs">
+                      <input
+                        type="checkbox"
+                        checked={isUpfrontInterest}
+                        onChange={(e) => setIsUpfrontInterest(e.target.checked)}
+                        className="checkbox checkbox-xs checkbox-primary border-slate-300 rounded"
+                      />
+                      <span>Thu lãi trước</span>
+                    </label>
+                  </div>
                 </div>
 
                 {/* Default Amount */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Số tiền cầm <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8">
-                  <MoneyInput
-                    value={defaultAmount}
-                    onChange={(val) => setDefaultAmount(val)}
-                    placeholder="0"
-                    required
-                  />
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Số tiền cầm <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <MoneyInput
+                      value={defaultAmount}
+                      onChange={(val) => setDefaultAmount(val)}
+                      placeholder="0"
+                      required
+                    />
+                  </div>
                 </div>
 
                 {/* Interest Rate */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  {getInterestConfig().label} <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8 relative">
-                  <input
-                    type="text"
-                    placeholder={getInterestConfig().placeholder}
-                    value={defaultInterestRate}
-                    onChange={(e) => setDefaultInterestRate(e.target.value)}
-                    className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg pr-36 h-9 font-bold"
-                    required
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-slate-500 font-bold select-none">
-                    {getInterestConfig().suffix}
-                  </span>
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    {getInterestConfig().label} <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white w-full h-9">
+                      <input
+                        type="text"
+                        placeholder={getInterestConfig().placeholder}
+                        value={defaultInterestRate}
+                        onChange={(e) => setDefaultInterestRate(e.target.value)}
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        required
+                      />
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none">
+                        {getInterestConfig().suffix}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Period value */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  {periodValueLabel} <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8">
-                  <div className="relative">
-                    <input
-                      type="number"
-                      placeholder={periodValuePlaceholder}
-                      value={defaultPeriodValue}
-                      onChange={(e) => setDefaultPeriodValue(e.target.value)}
-                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg pr-20 h-9 font-bold"
-                      required
-                    />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-slate-500 font-bold uppercase select-none">
-                      {periodValueSuffix}
-                    </span>
+                <div className="flex items-start">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none pt-2">
+                    {periodValueLabel} <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white w-full h-9">
+                      <input
+                        type="number"
+                        placeholder={periodValuePlaceholder}
+                        value={defaultPeriodValue}
+                        onChange={(e) => setDefaultPeriodValue(e.target.value)}
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        required
+                      />
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none uppercase">
+                        {periodValueSuffix}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1 leading-relaxed italic">
+                      {periodValueHelper}
+                    </p>
                   </div>
-                  <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed italic">
-                    {periodValueHelper}
-                  </p>
                 </div>
 
                 {/* Loan Days */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  {loanDaysLabel} <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8 relative">
-                  <input
-                    type="number"
-                    placeholder={loanDaysPlaceholder}
-                    value={defaultLoanDays}
-                    onChange={(e) => setDefaultLoanDays(e.target.value)}
-                    className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg pr-20 h-9 font-bold"
-                    required
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-slate-500 font-bold uppercase select-none">
-                    {loanDaysSuffix}
-                  </span>
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    {loanDaysLabel} <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white w-full h-9">
+                      <input
+                        type="number"
+                        placeholder={loanDaysPlaceholder}
+                        value={defaultLoanDays}
+                        onChange={(e) => setDefaultLoanDays(e.target.value)}
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        required
+                      />
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none uppercase">
+                        {loanDaysSuffix}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Liquidation After Days */}
-                <label className="col-span-4 text-right pr-2 font-bold text-slate-700">
-                  Thanh lý sau <span className="text-red-500">*</span>
-                </label>
-                <div className="col-span-8 relative">
-                  <input
-                    type="number"
-                    value={liquidationAfterDays}
-                    onChange={(e) => setLiquidationAfterDays(e.target.value)}
-                    className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg pr-24 h-9 font-bold"
-                    required
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-slate-500 font-bold select-none">
-                    ngày quá hạn
-                  </span>
+                <div className="flex items-center">
+                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                    Thanh lý sau <span className="text-red-500">*</span>
+                  </label>
+                  <div className="grow">
+                    <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white w-full h-9">
+                      <input
+                        type="number"
+                        value={liquidationAfterDays}
+                        onChange={(e) => setLiquidationAfterDays(e.target.value)}
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        required
+                      />
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none">
+                        ngày quá hạn
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* PHẦN 3: Thuộc tính hàng hóa */}
             <div className="space-y-3 pt-2">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-1">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
                 <h3 className="font-bold text-xs text-blue-600 uppercase flex items-center gap-1.5">
-                  <Info className="w-3.5 h-3.5 text-blue-600" />
+                  <Info className="w-4 h-4 text-blue-600" />
                   <span>3. Thuộc tính hàng hoá cần nhập</span>
                 </h3>
                 <button
@@ -849,7 +874,7 @@ export const Commodities: React.FC = () => {
                 <div className="space-y-2">
                   {attributes.map((attr, idx) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <label className="w-[120px] text-right font-bold text-slate-700 shrink-0">
+                      <label className="w-[150px] text-right font-bold text-slate-700 shrink-0 text-xs select-none">
                         Thuộc tính {idx + 1}
                       </label>
                       <input
