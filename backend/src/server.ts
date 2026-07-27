@@ -33,10 +33,23 @@ import { errorHandler } from "./middleware/errorHandler";
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Middlewares
+// CORS - Allowed origins loaded from CORS_ORIGINS env variable (comma-separated)
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
+  : ["http://localhost:5173", "http://localhost:3000"];
+
 app.use(
   cors({
-    origin: true, // Chấp nhận động origin gửi từ client (localhost:3000, 8080, 5173, production domain)
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. curl, server-to-server, postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Branch-ID"],

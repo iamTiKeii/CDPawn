@@ -1,34 +1,34 @@
 # CDPawn — Hệ Thống Quản Lý Tài Chính, Cầm Đồ & Tín Dụng Tiêu Dùng
 
-> Phần mềm quản lý toàn diện dành cho các cơ sở kinh doanh dịch vụ **cầm đồ**, **cho vay tín chấp**, **trả góp** và **nhận góp vốn đầu tư**.  
+> Phần mềm quản lý toàn diện dành cho các cơ sở kinh doanh dịch vụ **cầm đồ**, **cho vay tín chấp**, **trả góp** và **nhận góp vốn đầu tư**.
 > Được xây dựng trên nền tảng **React + TypeScript + Node.js + PostgreSQL**, triển khai qua **Vercel (Frontend)** và **Railway (Backend)**.
 
 ---
 
 ## 📌 Các Phân Hệ Chính
 
-| Phân hệ | Mô tả |
-|---|---|
-| 🏦 **Cầm đồ (Pawn)** | Hợp đồng thế chấp tài sản (xe máy, điện thoại, giấy tờ). Tính lãi theo ngày/tuần/tháng với gói `k/triệu` hoặc `k/ngày` |
-| 💸 **Tín chấp (Unsecured)** | Cho vay không thế chấp, tính lãi linh hoạt theo ngày/tuần/tháng |
-| 📅 **Trả góp (Installment)** | Cho vay thu tiền góp định kỳ (bát họ), tự động sinh lịch đóng tiền |
-| 💼 **Nguồn vốn (Capital)** | Nhận góp vốn đầu tư từ cổ đông, trả lãi định kỳ |
-| 🗂️ **Thu / Chi (Vouchers)** | Phiếu thu/chi hoạt động vận hành ngoài hợp đồng vay |
-| 💰 **Quỹ két (Cash Fund)** | Đếm tiền mặt theo mệnh giá, chốt quỹ cuối ngày, theo dõi chênh lệch thừa/thiếu |
-| 📊 **Báo cáo (Reports)** | Dòng tiền, lãi chi tiết, tổng hợp lợi nhuận, bàn giao ca, tổng hợp chi nhánh |
-| ⚠️ **Cảnh báo (Warnings)** | Theo dõi hợp đồng quá hạn, sắp đến hạn |
-| 🖨️ **In hợp đồng** | In trực tiếp từ template HTML với đầy đủ thông tin hợp đồng và lịch đóng tiền |
+| Phân hệ                           | Mô tả                                                                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 🏦**Cầm đồ (Pawn)**        | Hợp đồng thế chấp tài sản (xe máy, điện thoại, giấy tờ). Tính lãi theo ngày/tuần/tháng với gói`k/triệu` hoặc `k/ngày` |
+| 💸**Tín chấp (Unsecured)**  | Cho vay không thế chấp, tính lãi linh hoạt theo ngày/tuần/tháng                                                                         |
+| 📅**Trả góp (Installment)** | Cho vay thu tiền góp định kỳ (bát họ), tự động sinh lịch đóng tiền                                                                 |
+| 💼**Nguồn vốn (Capital)**   | Nhận góp vốn đầu tư từ cổ đông, trả lãi định kỳ                                                                                   |
+| 🗂️**Thu / Chi (Vouchers)**  | Phiếu thu/chi hoạt động vận hành ngoài hợp đồng vay                                                                                    |
+| 💰**Quỹ két (Cash Fund)**   | Đếm tiền mặt theo mệnh giá, chốt quỹ cuối ngày, theo dõi chênh lệch thừa/thiếu                                                    |
+| 📊**Báo cáo (Reports)**     | Dòng tiền, lãi chi tiết, tổng hợp lợi nhuận, bàn giao ca, tổng hợp chi nhánh                                                         |
+| ⚠️**Cảnh báo (Warnings)** | Theo dõi hợp đồng quá hạn, sắp đến hạn                                                                                                 |
+| 🖨️**In hợp đồng**        | In trực tiếp từ template HTML với đầy đủ thông tin hợp đồng và lịch đóng tiền                                                   |
 
 ---
 
 ## ⚙️ Yêu Cầu Hệ Thống
 
-| Công cụ | Phiên bản tối thiểu |
-|---|---|
-| **Node.js** | 18.x trở lên |
-| **npm** | 9.x trở lên |
-| **PostgreSQL** | 14.x trở lên |
-| **Git** | Bất kỳ |
+| Công cụ            | Phiên bản tối thiểu |
+| -------------------- | ----------------------- |
+| **Node.js**    | 18.x trở lên          |
+| **npm**        | 9.x trở lên           |
+| **PostgreSQL** | 14.x trở lên          |
+| **Git**        | Bất kỳ                |
 
 ---
 
@@ -104,9 +104,9 @@ npm run db:fresh-deploy
 
 🔑 **Thông tin đăng nhập mặc định:**
 
-| | |
-|---|---|
-| **Username** | `admin` |
+|                    |              |
+| ------------------ | ------------ |
+| **Username** | `admin`    |
 | **Password** | `admin123` |
 
 > ⚠️ Đổi mật khẩu ngay sau lần đăng nhập đầu tiên!
@@ -128,10 +128,10 @@ npm run db:clean
 
 Dự án được thiết kế để deploy tách biệt:
 
-| Thành phần | Nền tảng | Ghi chú |
-|---|---|---|
-| **Frontend** | Vercel | Tự động deploy khi push lên `main` |
-| **Backend** | Railway | Node.js + PostgreSQL managed |
+| Thành phần       | Nền tảng | Ghi chú                                |
+| ------------------ | ---------- | --------------------------------------- |
+| **Frontend** | Vercel     | Tự động deploy khi push lên`main` |
+| **Backend**  | Railway    | Node.js + PostgreSQL managed            |
 
 ### Frontend — Vercel
 
@@ -219,11 +219,11 @@ Pawna/
 
 ## 🔑 Phân Quyền Hệ Thống (RBAC)
 
-| Role | Mô tả |
-|---|---|
-| **Admin** | Toàn quyền — quản lý cửa hàng, nhân viên, hệ thống |
-| **Manager** | Quản lý hợp đồng, báo cáo, chốt ca |
-| **Staff** | Tạo/xem hợp đồng, thu lãi theo phạm vi được cấp |
+| Role              | Mô tả                                                       |
+| ----------------- | ------------------------------------------------------------- |
+| **Admin**   | Toàn quyền — quản lý cửa hàng, nhân viên, hệ thống |
+| **Manager** | Quản lý hợp đồng, báo cáo, chốt ca                    |
+| **Staff**   | Tạo/xem hợp đồng, thu lãi theo phạm vi được cấp     |
 
 Quyền hạn được cấp chi tiết theo từng **chức năng** và **chi nhánh** cho từng nhân viên.
 
@@ -231,39 +231,40 @@ Quyền hạn được cấp chi tiết theo từng **chức năng** và **chi n
 
 ## 🖨️ Template In Hợp Đồng
 
-| Mã template | Loại | Mô tả |
-|---|---|---|
-| `cd_01_001` | Cầm đồ | Hợp đồng cầm cố tài sản A4 tiêu chuẩn |
-| `cd_02_001` | Cầm đồ | Giấy cầm cố tối giản |
-| `tc_01_001` | Tín chấp | Hợp đồng tín chấp chi tiết A4 |
-| `tc_02_001` | Tín chấp | Hợp đồng tín chấp tóm tắt |
-| `tg_01_001` | Trả góp | Hợp đồng trả góp + lịch đóng tiền |
-| `tg_02_001` | Trả góp | Biên nhận trả góp rút gọn |
-| `gv_01_001` | Góp vốn | Hợp đồng góp vốn đầu tư A4 |
-| `gv_02_001` | Góp vốn | Chứng nhận nhận góp vốn |
-| `inv_01_001` | Phiếu thu | Phiếu thu A4/A5 |
-| `inv_01_002` | Phiếu thu | Phiếu thu nhiệt K80 |
-| `inv_02_001` | Phiếu chi | Phiếu chi A4/A5 |
-| `inv_02_002` | Phiếu chi | Phiếu chi nhiệt K80 |
+| Mã template   | Loại      | Mô tả                                        |
+| -------------- | ---------- | ---------------------------------------------- |
+| `cd_01_001`  | Cầm đồ  | Hợp đồng cầm cố tài sản A4 tiêu chuẩn |
+| `cd_02_001`  | Cầm đồ  | Giấy cầm cố tối giản                      |
+| `tc_01_001`  | Tín chấp | Hợp đồng tín chấp chi tiết A4            |
+| `tc_02_001`  | Tín chấp | Hợp đồng tín chấp tóm tắt               |
+| `tg_01_001`  | Trả góp  | Hợp đồng trả góp + lịch đóng tiền     |
+| `tg_02_001`  | Trả góp  | Biên nhận trả góp rút gọn                |
+| `gv_01_001`  | Góp vốn  | Hợp đồng góp vốn đầu tư A4             |
+| `gv_02_001`  | Góp vốn  | Chứng nhận nhận góp vốn                   |
+| `inv_01_001` | Phiếu thu | Phiếu thu A4/A5                               |
+| `inv_01_002` | Phiếu thu | Phiếu thu nhiệt K80                          |
+| `inv_02_001` | Phiếu chi | Phiếu chi A4/A5                               |
+| `inv_02_002` | Phiếu chi | Phiếu chi nhiệt K80                          |
 
 ---
 
 ## 📋 Tech Stack
 
-| Layer | Công nghệ |
-|---|---|
+| Layer              | Công nghệ                                      |
+| ------------------ | ------------------------------------------------ |
 | **Frontend** | React 18, TypeScript, Vite, TailwindCSS, DaisyUI |
-| **Backend** | Node.js, Express, TypeScript, Prisma ORM |
-| **Database** | PostgreSQL 14+ |
-| **Auth** | JWT + bcrypt, RBAC |
-| **Deploy** | Vercel (FE) + Railway (BE) |
-| **Icons** | Lucide React |
+| **Backend**  | Node.js, Express, TypeScript, Prisma ORM         |
+| **Database** | PostgreSQL 14+                                   |
+| **Auth**     | JWT + bcrypt, RBAC                               |
+| **Deploy**   | Vercel (FE) + Railway (BE)                       |
+| **Icons**    | Lucide React                                     |
 
 ---
 
 ## ⚖️ Điều Khoản Sử Dụng
 
 Phần mềm CDPawn là công cụ tính toán và lưu trữ dữ liệu. Người dùng có trách nhiệm:
+
 - Đảm bảo lãi suất tuân thủ **Điều 468 Bộ luật Dân sự 2015** (không vượt 20%/năm)
 - Tự chịu trách nhiệm pháp lý về các giao dịch thực hiện qua hệ thống
 - Bảo mật thông tin tài khoản và dữ liệu khách hàng
