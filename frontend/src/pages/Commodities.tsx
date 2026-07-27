@@ -388,54 +388,54 @@ export const Commodities: React.FC = () => {
   const currentRecords = sorted.slice(indexOfFirstRecord, indexOfLastRecord);
 
   return (
-    <div className="space-y-6 text-slate-800 animate-fade-in max-w-[1600px] mx-auto font-sans pb-10">
+    <div className="space-y-6 text-slate-800 animate-fade-in w-full px-2 sm:px-4 font-sans pb-10">
       
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-extrabold tracking-tight text-slate-800 uppercase flex items-center gap-2">
-            <Package className="w-6 h-6 text-emerald-600" />
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-800 uppercase flex items-center gap-2">
+            <Package className="w-7 h-7 text-emerald-600" />
             <span>CẤU HÌNH HÀNG HOÁ & TÀI SẢN</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Quản lý định mức vay, lãi suất mặc định và các thuộc tính động cho từng loại hàng hóa.
           </p>
         </div>
       </div>
 
-      {/* Main 2-Column Master-Detail Layout (5 / 7 split) */}
+      {/* Main 2-Column Master-Detail Layout (7 / 5 split for spacious list view) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* ── LEFT COLUMN: DANH SÁCH HÀNG HÓA (lg:col-span-5) ── */}
-        <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+        {/* ── LEFT COLUMN: DANH SÁCH HÀNG HÓA (lg:col-span-7) ── */}
+        <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden flex flex-col">
           
           {/* Header & Controls */}
-          <div className="p-4 border-b border-slate-100 bg-slate-50/50 space-y-3">
+          <div className="p-4 sm:p-5 border-b border-slate-100 bg-slate-50/50 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-sm text-slate-800 uppercase flex items-center gap-2">
-                <Layers className="w-4 h-4 text-emerald-600" />
+              <h2 className="font-extrabold text-base text-slate-800 uppercase flex items-center gap-2">
+                <Layers className="w-5 h-5 text-emerald-600" />
                 <span>Danh sách Hàng hóa ({totalRecords})</span>
               </h2>
               <button
                 onClick={handleOpenCreate}
-                className="btn btn-primary bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-xs rounded-lg font-bold px-3 text-[11px] shadow-sm flex items-center gap-1"
+                className="btn btn-primary bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-sm rounded-xl font-extrabold px-4 text-xs shadow-sm flex items-center gap-1.5"
                 type="button"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 <span>+ Thêm mới</span>
               </button>
             </div>
 
             {/* Filter controls */}
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div className="sm:col-span-6 relative">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Tìm tên, mã hàng hoá..."
+                  placeholder="Tìm theo tên, mã hàng hoá..."
                   value={searchQuery}
                   onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
-                  className="input input-bordered input-xs pl-8 bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg w-full h-[30px]"
+                  className="input input-bordered input-sm pl-9 bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-800 text-xs sm:text-sm rounded-xl w-full h-10"
                 />
               </div>
 
@@ -443,7 +443,7 @@ export const Commodities: React.FC = () => {
                 <select
                   value={categoryFilter}
                   onChange={(e) => { setCategoryFilter(e.target.value); setPage(1); }}
-                  className="select select-bordered select-xs bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg w-full h-[30px]"
+                  className="select select-bordered select-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-800 text-xs sm:text-sm rounded-xl w-full h-10 font-semibold"
                 >
                   <option value="">Tất cả loại hình</option>
                   <option value="pawn">Cầm đồ</option>
@@ -455,7 +455,7 @@ export const Commodities: React.FC = () => {
                 <select
                   value={statusFilter}
                   onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-                  className="select select-bordered select-xs bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg w-full h-[30px]"
+                  className="select select-bordered select-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-800 text-xs sm:text-sm rounded-xl w-full h-10 font-semibold"
                 >
                   <option value="">Trạng thái</option>
                   <option value="active">Hoạt động</option>
@@ -466,42 +466,42 @@ export const Commodities: React.FC = () => {
           </div>
 
           {/* Table List */}
-          <div className="overflow-x-auto min-h-[400px] max-h-[650px] overflow-y-auto">
+          <div className="overflow-x-auto min-h-[420px] max-h-[680px] overflow-y-auto">
             {loading ? (
               <div className="flex justify-center p-16">
                 <span className="loading loading-spinner loading-lg text-emerald-500"></span>
               </div>
             ) : currentRecords.length === 0 ? (
-              <div className="text-center py-16 text-slate-400 text-xs">
+              <div className="text-center py-16 text-slate-400 text-sm">
                 Không tìm thấy hàng hóa nào phù hợp.
               </div>
             ) : (
-              <table className="table table-compact w-full text-slate-700">
+              <table className="table w-full text-slate-700">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200/80 text-slate-500 text-[11px] font-semibold sticky top-0 z-10">
-                    <th className="w-8 text-center">#</th>
-                    <th className="py-2.5">Loại hình</th>
+                  <tr className="bg-slate-50/90 border-b border-slate-200/80 text-slate-600 text-xs font-extrabold uppercase tracking-wider sticky top-0 z-10">
+                    <th className="w-10 text-center">#</th>
+                    <th className="py-3 px-3">Loại hình</th>
                     <th 
                       onClick={() => handleSort("name")}
-                      className="cursor-pointer hover:bg-slate-100/60 py-2.5"
+                      className="cursor-pointer hover:bg-slate-100/60 py-3 px-3"
                     >
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <span>Tên hàng hóa</span>
-                        <ChevronsUpDown className="w-3 h-3 text-slate-400" />
+                        <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                       </div>
                     </th>
                     <th 
                       onClick={() => handleSort("code")}
-                      className="cursor-pointer hover:bg-slate-100/60 py-2.5"
+                      className="cursor-pointer hover:bg-slate-100/60 py-3 px-3"
                     >
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5">
                         <span>Mã</span>
-                        <ChevronsUpDown className="w-3 h-3 text-slate-400" />
+                        <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                       </div>
                     </th>
-                    <th className="py-2.5 text-right pr-3">Tiền cầm</th>
-                    <th className="py-2.5">Trạng thái</th>
-                    <th className="py-2.5 text-center">Thao tác</th>
+                    <th className="py-3 px-3 text-right">Tiền cầm</th>
+                    <th className="py-3 px-3">Trạng thái</th>
+                    <th className="py-3 px-3 text-center">Thao tác</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -513,28 +513,28 @@ export const Commodities: React.FC = () => {
                       <tr 
                         key={c.id} 
                         onClick={() => handleOpenEdit(c)}
-                        className={`cursor-pointer transition-colors text-xs hover:bg-emerald-50/40 ${
-                          isSelected ? "bg-emerald-50/80 border-l-4 border-l-emerald-500 font-medium" : ""
+                        className={`cursor-pointer transition-colors text-xs sm:text-sm hover:bg-emerald-50/50 ${
+                          isSelected ? "bg-emerald-50/90 border-l-4 border-l-emerald-500 font-semibold" : ""
                         }`}
                       >
-                        <td className="text-center font-medium text-slate-400">{displayIndex}</td>
-                        <td className="font-medium">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                            c.category === "pawn" ? "bg-blue-50 text-blue-600" : "bg-purple-50 text-purple-600"
+                        <td className="text-center font-bold text-slate-400">{displayIndex}</td>
+                        <td>
+                          <span className={`badge badge-sm font-extrabold uppercase px-2.5 py-2 text-[11px] border-none ${
+                            c.category === "pawn" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
                           }`}>
                             {c.category === "pawn" ? "Cầm đồ" : "Tín Chấp"}
                           </span>
                         </td>
-                        <td className="font-semibold text-slate-800">
-                          <div>{getCleanName(c.name)}</div>
-                          <div className="text-[10px] text-slate-400 font-normal">
-                            Lãi: {getInterestTypeLabel(c)}
+                        <td className="font-extrabold text-slate-800 py-3">
+                          <div className="text-sm text-slate-900">{getCleanName(c.name)}</div>
+                          <div className="text-xs text-slate-500 font-medium mt-0.5">
+                            Lãi: <span className="font-bold text-slate-700">{getInterestTypeLabel(c)}</span>
                           </div>
                         </td>
-                        <td className="font-bold text-slate-600 uppercase text-[11px]">{c.code}</td>
-                        <td className="font-bold text-slate-800 text-right pr-3">{formatNumber(c.default_amount)}</td>
+                        <td className="font-extrabold text-slate-700 uppercase text-xs sm:text-sm">{c.code}</td>
+                        <td className="font-extrabold text-slate-900 text-right pr-3 text-sm">{formatNumber(c.default_amount)} VNĐ</td>
                         <td>
-                          <span className={`badge badge-xs py-1.5 px-2 border-none font-bold text-[10px] uppercase ${
+                          <span className={`badge badge-sm font-extrabold uppercase px-2.5 py-2 text-[11px] border-none ${
                             c.status === "active" 
                               ? "bg-emerald-500 text-white" 
                               : "bg-slate-200 text-slate-600"
@@ -543,22 +543,22 @@ export const Commodities: React.FC = () => {
                           </span>
                         </td>
                         <td className="py-2 text-center" onClick={(e) => e.stopPropagation()}>
-                          <div className="flex items-center justify-center gap-1">
+                          <div className="flex items-center justify-center gap-1.5">
                             <button
                               onClick={() => handleOpenEdit(c)}
-                              className="btn btn-ghost btn-xs text-blue-600 hover:bg-blue-50 p-1 h-7 min-h-[28px] w-7"
+                              className="btn btn-ghost btn-xs text-blue-600 hover:bg-blue-100/80 rounded-lg h-8 min-h-[32px] w-8 p-0"
                               type="button"
                               title="Chỉnh sửa"
                             >
-                              <Edit2 className="w-3.5 h-3.5" />
+                              <Edit2 className="w-4 h-4" />
                             </button>
                             <button
                               onClick={(e) => handleDelete(c, e)}
-                              className="btn btn-ghost btn-xs text-red-500 hover:bg-red-50 p-1 h-7 min-h-[28px] w-7"
+                              className="btn btn-ghost btn-xs text-red-500 hover:bg-red-100/80 rounded-lg h-8 min-h-[32px] w-8 p-0"
                               type="button"
                               title="Xóa"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
                         </td>
@@ -571,15 +571,16 @@ export const Commodities: React.FC = () => {
           </div>
 
           {/* Pagination Footer */}
-          <div className="p-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-2 text-xs">
-            <span className="text-slate-500 font-medium">
-              {totalRecords === 0 ? "0/0" : `${indexOfFirstRecord + 1}-${Math.min(indexOfLastRecord, totalRecords)}/${totalRecords}`}
+          <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-2 text-xs sm:text-sm">
+            <span className="text-slate-600 font-semibold">
+              Hiển thị {totalRecords === 0 ? "0/0" : `${indexOfFirstRecord + 1}-${Math.min(indexOfLastRecord, totalRecords)}/${totalRecords}`} bản ghi
             </span>
             <div className="flex items-center gap-2">
+              <span className="text-slate-500 font-medium">Mỗi trang:</span>
               <select 
                 value={limit} 
                 onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }} 
-                className="select select-bordered select-xs bg-white text-slate-700 border-slate-200 focus:outline-none rounded h-[26px] min-h-[26px]"
+                className="select select-bordered select-xs bg-white text-slate-800 font-bold border-slate-200 focus:outline-none rounded-lg h-[28px] min-h-[28px]"
               >
                 <option value={10}>10 dòng</option>
                 <option value={20}>20 dòng</option>
@@ -589,13 +590,13 @@ export const Commodities: React.FC = () => {
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: CÁC THÔNG TIN CẦN TẠO/SỬA HÀNG HÓA (lg:col-span-7) ── */}
-        <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
+        {/* ── RIGHT COLUMN: CÁC THÔNG TIN CẦN TẠO/SỬA HÀNG HÓA (lg:col-span-5) ── */}
+        <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-2xl shadow-sm overflow-hidden">
           
           {/* Header */}
-          <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-            <h2 className="font-bold text-sm text-slate-800 uppercase flex items-center gap-2">
-              <Tag className="w-4 h-4 text-blue-600" />
+          <div className="p-4 sm:p-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+            <h2 className="font-extrabold text-base text-slate-800 uppercase flex items-center gap-2">
+              <Tag className="w-5 h-5 text-blue-600" />
               <span>{isEditMode ? `Chỉnh sửa: ${name || code}` : "Thêm mới cấu hình hàng hóa"}</span>
             </h2>
             {isEditMode && (
@@ -611,11 +612,11 @@ export const Commodities: React.FC = () => {
           </div>
 
           {/* Inline Form with Flex Rows */}
-          <form onSubmit={handleSave} className="p-6 space-y-6 text-xs text-slate-700">
+          <form onSubmit={handleSave} className="p-5 sm:p-6 space-y-5 text-xs sm:text-sm text-slate-700">
             
             {/* PHẦN 1: Thông tin hàng hoá */}
             <div className="space-y-3">
-              <h3 className="font-bold text-xs text-blue-600 uppercase border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
+              <h3 className="font-bold text-xs sm:text-sm text-blue-600 uppercase border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-blue-600" />
                 <span>1. Thông tin hàng hoá</span>
               </h3>
@@ -623,14 +624,14 @@ export const Commodities: React.FC = () => {
               <div className="space-y-3">
                 {/* Category */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Lĩnh vực <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="select select-bordered select-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-medium"
+                      className="select select-bordered select-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs sm:text-sm rounded-lg h-9 font-medium"
                       required
                     >
                       <option value="pawn">Cầm đồ</option>
@@ -641,7 +642,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Code */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Mã hàng <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -650,7 +651,7 @@ export const Commodities: React.FC = () => {
                       placeholder="VD: XM, DTD, LTOP..."
                       value={code}
                       onChange={(e) => setCode(e.target.value)}
-                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 font-bold text-xs rounded-lg uppercase h-9"
+                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 font-bold text-xs sm:text-sm rounded-lg uppercase h-9"
                       required
                       disabled={isEditMode}
                     />
@@ -659,7 +660,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Name */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Tên hàng hoá <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -668,7 +669,7 @@ export const Commodities: React.FC = () => {
                       placeholder="VD: Xe máy, Điện thoại, Máy tính..."
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-semibold"
+                      className="input input-bordered input-sm w-full bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs sm:text-sm rounded-lg h-9 font-semibold"
                       required
                     />
                   </div>
@@ -676,11 +677,11 @@ export const Commodities: React.FC = () => {
 
                 {/* Status */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Trạng thái
                   </label>
                   <div className="grow flex items-center gap-6">
-                    <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700 text-xs">
+                    <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700 text-xs sm:text-sm">
                       <input
                         type="radio"
                         name="inlineStatus"
@@ -690,7 +691,7 @@ export const Commodities: React.FC = () => {
                       />
                       <span>Hoạt động</span>
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700 text-xs">
+                    <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-slate-700 text-xs sm:text-sm">
                       <input
                         type="radio"
                         name="inlineStatus"
@@ -707,7 +708,7 @@ export const Commodities: React.FC = () => {
 
             {/* PHẦN 2: Cấu hình giá trị mặc định */}
             <div className="space-y-3 pt-2">
-              <h3 className="font-bold text-xs text-blue-600 uppercase border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
+              <h3 className="font-bold text-xs sm:text-sm text-blue-600 uppercase border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
                 <SlidersHorizontal className="w-4 h-4 text-blue-600" />
                 <span>2. Định mức & Lãi suất mặc định</span>
               </h3>
@@ -715,14 +716,14 @@ export const Commodities: React.FC = () => {
               <div className="space-y-3">
                 {/* Interest Type */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Hình thức lãi <span className="text-red-500">*</span>
                   </label>
                   <div className="grow flex items-center gap-3">
                     <select
                       value={interestTypeId}
                       onChange={(e) => setInterestTypeId(e.target.value)}
-                      className="select select-bordered select-sm flex-1 bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-medium"
+                      className="select select-bordered select-sm flex-1 bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs sm:text-sm rounded-lg h-9 font-medium"
                       required
                     >
                       {interestTypes.map((it) => (
@@ -730,7 +731,7 @@ export const Commodities: React.FC = () => {
                       ))}
                     </select>
 
-                    <label className="flex items-center gap-1.5 cursor-pointer select-none font-bold text-slate-700 shrink-0 text-xs">
+                    <label className="flex items-center gap-1.5 cursor-pointer select-none font-bold text-slate-700 shrink-0 text-xs sm:text-sm">
                       <input
                         type="checkbox"
                         checked={isUpfrontInterest}
@@ -744,7 +745,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Default Amount */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Số tiền cầm <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -759,7 +760,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Interest Rate */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     {getInterestConfig().label} <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -769,10 +770,10 @@ export const Commodities: React.FC = () => {
                         placeholder={getInterestConfig().placeholder}
                         value={defaultInterestRate}
                         onChange={(e) => setDefaultInterestRate(e.target.value)}
-                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs sm:text-sm border-none"
                         required
                       />
-                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none">
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-xs font-bold shrink-0 select-none">
                         {getInterestConfig().suffix}
                       </span>
                     </div>
@@ -781,7 +782,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Period value */}
                 <div className="flex items-start">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none pt-2">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none pt-2">
                     {periodValueLabel} <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -791,14 +792,14 @@ export const Commodities: React.FC = () => {
                         placeholder={periodValuePlaceholder}
                         value={defaultPeriodValue}
                         onChange={(e) => setDefaultPeriodValue(e.target.value)}
-                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs sm:text-sm border-none"
                         required
                       />
-                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none uppercase">
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-xs font-bold shrink-0 select-none uppercase">
                         {periodValueSuffix}
                       </span>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1 leading-relaxed italic">
+                    <p className="text-[11px] text-slate-400 mt-1 leading-relaxed italic">
                       {periodValueHelper}
                     </p>
                   </div>
@@ -806,7 +807,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Loan Days */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     {loanDaysLabel} <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -816,10 +817,10 @@ export const Commodities: React.FC = () => {
                         placeholder={loanDaysPlaceholder}
                         value={defaultLoanDays}
                         onChange={(e) => setDefaultLoanDays(e.target.value)}
-                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs sm:text-sm border-none"
                         required
                       />
-                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none uppercase">
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-xs font-bold shrink-0 select-none uppercase">
                         {loanDaysSuffix}
                       </span>
                     </div>
@@ -828,7 +829,7 @@ export const Commodities: React.FC = () => {
 
                 {/* Liquidation After Days */}
                 <div className="flex items-center">
-                  <label className="w-[150px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs select-none">
+                  <label className="w-[140px] text-right pr-3 font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                     Thanh lý sau <span className="text-red-500">*</span>
                   </label>
                   <div className="grow">
@@ -837,10 +838,10 @@ export const Commodities: React.FC = () => {
                         type="number"
                         value={liquidationAfterDays}
                         onChange={(e) => setLiquidationAfterDays(e.target.value)}
-                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs border-none"
+                        className="grow px-3 text-slate-800 h-full font-bold focus:outline-none bg-white text-left text-xs sm:text-sm border-none"
                         required
                       />
-                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-[11px] font-bold shrink-0 select-none">
+                      <span className="bg-slate-50 text-slate-500 px-3 h-full flex items-center border-l border-slate-200 text-xs font-bold shrink-0 select-none">
                         ngày quá hạn
                       </span>
                     </div>
@@ -852,7 +853,7 @@ export const Commodities: React.FC = () => {
             {/* PHẦN 3: Thuộc tính hàng hóa */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
-                <h3 className="font-bold text-xs text-blue-600 uppercase flex items-center gap-1.5">
+                <h3 className="font-bold text-xs sm:text-sm text-blue-600 uppercase flex items-center gap-1.5">
                   <Info className="w-4 h-4 text-blue-600" />
                   <span>3. Thuộc tính hàng hoá cần nhập</span>
                 </h3>
@@ -867,14 +868,14 @@ export const Commodities: React.FC = () => {
               </div>
 
               {attributes.length === 0 ? (
-                <div className="text-[11px] text-slate-400 italic bg-slate-50 p-3 rounded-lg text-center">
+                <div className="text-xs text-slate-400 italic bg-slate-50 p-3 rounded-lg text-center">
                   Chưa khai báo thuộc tính động nào (ví dụ: Biển số, Số khung, Số máy, Mật khẩu...). Nhấn "+ Thêm thuộc tính" để khai báo.
                 </div>
               ) : (
                 <div className="space-y-2">
                   {attributes.map((attr, idx) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <label className="w-[150px] text-right font-bold text-slate-700 shrink-0 text-xs select-none">
+                      <label className="w-[140px] text-right font-bold text-slate-700 shrink-0 text-xs sm:text-sm select-none">
                         Thuộc tính {idx + 1}
                       </label>
                       <input
@@ -882,7 +883,7 @@ export const Commodities: React.FC = () => {
                         placeholder="Ví dụ: Biển số, Số khung, Số máy, Mật khẩu..."
                         value={attr}
                         onChange={(e) => handleAttrChange(idx, e.target.value)}
-                        className="input input-bordered input-sm grow bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-lg h-9 font-medium"
+                        className="input input-bordered input-sm grow bg-white border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs sm:text-sm rounded-lg h-9 font-medium"
                       />
                       <button
                         type="button"
@@ -902,13 +903,13 @@ export const Commodities: React.FC = () => {
               <button 
                 type="button"
                 onClick={handleOpenCreate}
-                className="btn bg-slate-100 hover:bg-slate-200 border-none text-slate-700 btn-sm rounded-lg font-bold px-4 text-xs"
+                className="btn bg-slate-100 hover:bg-slate-200 border-none text-slate-700 btn-sm rounded-lg font-bold px-4 text-xs sm:text-sm"
               >
                 Hủy / Đặt lại
               </button>
               <button 
                 type="submit" 
-                className="btn bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-sm rounded-lg font-bold px-6 text-xs shadow-sm"
+                className="btn bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-sm rounded-lg font-extrabold px-6 text-xs sm:text-sm shadow-sm"
               >
                 {isEditMode ? "Cập nhật cấu hình" : "+ Thêm mới cấu hình"}
               </button>
