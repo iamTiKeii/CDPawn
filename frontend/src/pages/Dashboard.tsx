@@ -11,6 +11,8 @@ import {
   TrendingDown,
 } from "lucide-react";
 
+import { formatTransactionType } from "../utils/transactionUtils";
+
 export const Dashboard: React.FC = () => {
   const { user, activeStore } = useAuth();
   const [cashSummary, setCashSummary] = useState<any>(null);
@@ -210,7 +212,7 @@ export const Dashboard: React.FC = () => {
                       </td>
                       <td>
                         <span className="badge badge-outline border-slate-200 text-slate-500 font-bold badge-sm uppercase">
-                          {item.type}
+                          {formatTransactionType(item.type)}
                         </span>
                       </td>
                       <td className="text-slate-500 max-w-xs truncate">{item.description}</td>

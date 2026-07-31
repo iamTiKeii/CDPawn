@@ -14,6 +14,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { DateRangePicker } from "../../components/shared/DateRangePicker";
 import { toast } from "../../lib/toast";
+import { formatTransactionType } from "../../utils/transactionUtils";
 
 export const TransactionsSummaryReport: React.FC = () => {
   const { activeStore } = useAuth();
@@ -117,7 +118,7 @@ export const TransactionsSummaryReport: React.FC = () => {
               <td class="text-center">${new Date(item.date).toLocaleDateString("vi-VN")}</td>
               <td class="text-center font-bold">${item.contract_code || "—"}</td>
               <td>${item.customer_name || "—"}</td>
-              <td class="text-center">${item.type}</td>
+              <td class="text-center">${formatTransactionType(item.type)}</td>
               <td class="text-center">${item.employee_name || "—"}</td>
               <td>${item.description || "—"}</td>
               <td class="text-right">${isThu ? formatNumberOnly(item.received_amount) : "-"}</td>
@@ -236,7 +237,7 @@ export const TransactionsSummaryReport: React.FC = () => {
             <td class="text-center" style="mso-number-format:'\\@';">${new Date(item.date).toLocaleDateString("vi-VN")}</td>
             <td class="text-center font-bold" style="mso-number-format:'\\@';">${item.contract_code || "—"}</td>
             <td>${item.customer_name || "—"}</td>
-            <td>${item.type || "—"}</td>
+            <td>${formatTransactionType(item.type)}</td>
             <td>${item.employee_name || "—"}</td>
             <td>${item.description || "—"}</td>
             <td class="text-right" style="mso-number-format:'#,##0';">${Number(item.received_amount || 0)}</td>
@@ -578,7 +579,7 @@ export const TransactionsSummaryReport: React.FC = () => {
                         </td>
                         <td className="py-3.5 px-4 whitespace-nowrap">
                           <span className={`px-2.5 py-1 rounded-md text-[11px] font-bold ${badgeClass}`}>
-                            {item.type}
+                            {formatTransactionType(item.type)}
                           </span>
                         </td>
                         <td className="py-3.5 px-4 font-medium text-slate-800 whitespace-nowrap">

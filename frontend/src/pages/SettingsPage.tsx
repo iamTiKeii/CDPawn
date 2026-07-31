@@ -221,25 +221,34 @@ export const SettingsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 text-slate-800 animate-fade-in max-w-4xl mx-auto">
-      <div>
-        <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 w-fit uppercase">
-          <Settings className="w-3.5 h-3.5" />
-          <span>Cấu hình</span>
-        </span>
-        <h1 className="text-2xl font-black text-slate-800 mt-2">Cấu hình Hệ thống</h1>
-        <p className="text-slate-500 text-xs mt-0.5">Quản lý cấu hình chung, thông tin nhận tiền và mẫu in chứng từ.</p>
+    <div className="space-y-6 text-slate-800 animate-fade-in max-w-5xl mx-auto font-sans pb-10">
+      
+      {/* ── Title Header Banner ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-slate-950 shadow-md shadow-amber-500/20 shrink-0">
+            <Settings className="w-7 h-7" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
+              CẤU HÌNH HỆ THỐNG CHUỖI
+            </h1>
+            <p className="text-xs text-slate-500 mt-1">
+              Thiết lập tham số thương hiệu, tài khoản thanh toán ngân hàng & danh mục mẫu in chứng từ
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Settings Navigation Tabs */}
-      <div className="flex gap-2 border-b border-slate-200/80 pb-2">
+      {/* ── Settings Navigation Tabs ── */}
+      <div className="flex gap-2.5 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60 w-fit">
         <button
           type="button"
           onClick={() => setActiveTab("general")}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
+          className={`px-5 py-2.5 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "general"
-              ? "bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20"
-              : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+              ? "bg-amber-500 text-slate-950 shadow-sm shadow-amber-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
           }`}
         >
           <Building2 className="w-4 h-4" />
@@ -249,10 +258,10 @@ export const SettingsPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab("templates")}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
+          className={`px-5 py-2.5 text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "templates"
-              ? "bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20"
-              : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+              ? "bg-amber-500 text-slate-950 shadow-sm shadow-amber-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
           }`}
         >
           <Printer className="w-4 h-4" />
@@ -260,7 +269,7 @@ export const SettingsPage: React.FC = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6">
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 md:p-8">
         <form onSubmit={handleSaveSystem} className="space-y-6">
 
           {/* TAB 1: CẤU HÌNH CHUNG & NGÂN HÀNG */}

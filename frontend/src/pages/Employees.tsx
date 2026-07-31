@@ -11,7 +11,8 @@ import {
   X,
   ShieldCheck,
   RotateCcw,
-  Edit2
+  Edit2,
+  Users
 } from "lucide-react";
 import { toast } from "../lib/toast";
 import { useConfirm } from "../context/ConfirmContext";
@@ -296,33 +297,57 @@ export const Employees: React.FC = () => {
   const currentRecords = sortedRecords.slice(indexOfFirstRecord, indexOfLastRecord);
 
   return (
-    <div className="space-y-5">
-      {/* Title */}
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-slate-800 uppercase mt-2">
-          DANH SÁCH NHÂN VIÊN
-        </h1>
+    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans pb-10">
+      
+      {/* ── Title Header Banner ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+            <Users className="w-7 h-7" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
+              DANH SÁCH NHÂN VIÊN & PHÂN QUYỀN
+            </h1>
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+              <span>Quản lý tài khoản cán bộ nhân sự, chi nhánh làm việc & phân quyền tài khoản</span>
+              <span>•</span>
+              <span>Tổng số nhân sự: <strong className="text-slate-700">{employees.length}</strong></span>
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            setIsCreateOpen(true);
+          }}
+          className="btn btn-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border-none text-white font-bold rounded-xl px-5 text-xs shadow-sm shadow-emerald-500/20 flex items-center justify-center gap-1.5 shrink-0"
+          type="button"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Thêm nhân viên mới</span>
+        </button>
       </div>
 
-      {/* Filter Bar */}
-      <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      {/* ── FILTER TOOLBAR ── */}
+      <div className="bg-white border border-slate-200/80 p-4 rounded-3xl shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
           {/* Search Input */}
           <input
             type="text"
-            placeholder="Tìm kiếm theo tài khoản, tên, số điện thoại..."
+            placeholder="Tìm theo tài khoản, tên, SĐT..."
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
-            className="input input-bordered input-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg placeholder-slate-350"
+            className="input input-sm bg-slate-50 border-slate-200 focus:bg-white focus:outline-none focus:border-indigo-500 text-slate-800 text-xs rounded-xl"
           />
 
           {/* Store Dropdown Filter */}
           <select
             value={selectedStoreFilter}
             onChange={(e) => { setSelectedStoreFilter(e.target.value); setPage(1); }}
-            className="select select-bordered select-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg h-[32px] min-h-[32px]"
+            className="select select-sm select-bordered bg-slate-50 border-slate-200 focus:outline-none focus:border-indigo-500 text-slate-800 text-xs rounded-xl h-[32px] min-h-[32px]"
           >
-            <option value="">Chi nhánh</option>
+            <option value="">Tất cả Chi nhánh</option>
             {stores.map((s) => (
               <option key={s.id} value={s.id}>{s.name}</option>
             ))}
@@ -332,29 +357,17 @@ export const Employees: React.FC = () => {
           <select
             value={selectedStatusFilter}
             onChange={(e) => { setSelectedStatusFilter(e.target.value); setPage(1); }}
-            className="select select-bordered select-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg h-[32px] min-h-[32px]"
+            className="select select-sm select-bordered bg-slate-50 border-slate-200 focus:outline-none focus:border-indigo-500 text-slate-800 text-xs rounded-xl h-[32px] min-h-[32px]"
           >
-            <option value="">Trạng thái</option>
-            <option value="active">Hoạt động</option>
+            <option value="">Tất cả Trạng thái</option>
+            <option value="active">Đang hoạt động</option>
             <option value="inactive">Tạm khoá</option>
           </select>
         </div>
-
-        {/* Add Employee Button */}
-        <button
-          onClick={() => {
-            setIsCreateOpen(true);
-          }}
-          className="btn btn-primary bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-sm rounded-lg font-medium px-4 text-xs shadow-sm flex items-center justify-center gap-1 shrink-0"
-          type="button"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Thêm nhân viên</span>
-        </button>
       </div>
 
-      {/* Employee List Table */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
+      {/* ── EMPLOYEE LIST TABLE CARD ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm">
         {loading ? (
           <div className="flex justify-center p-16">
             <span className="loading loading-spinner loading-lg text-emerald-500"></span>
@@ -363,11 +376,11 @@ export const Employees: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="table w-full text-slate-700">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200/80 text-slate-500 text-xs font-semibold">
-                  <th className="w-12 text-center text-[11px]">#</th>
+                <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase">
+                  <th className="w-12 text-center py-3.5">#</th>
                   <th 
                     onClick={() => handleSort("username")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
                       <span>Tài khoản</span>
@@ -376,25 +389,25 @@ export const Employees: React.FC = () => {
                   </th>
                   <th 
                     onClick={() => handleSort("full_name")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
                       <span>Họ tên</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
                   </th>
-                  <th className="text-[11px]">Chi nhánh làm việc</th>
+                  <th className="py-3.5">Chi nhánh làm việc</th>
                   <th 
                     onClick={() => handleSort("created_at")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
                       <span>Ngày tạo</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
                   </th>
-                  <th className="text-[11px]">Tình trạng</th>
-                  <th className="text-[11px] text-center">Chức năng</th>
+                  <th className="py-3.5">Tình trạng</th>
+                  <th className="py-3.5 text-center pr-4">Chức năng</th>
                 </tr>
               </thead>
               <tbody>

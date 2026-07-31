@@ -49,7 +49,7 @@ export const ContractDetailLayout: React.FC<ContractDetailLayoutProps> = ({
         <div className="space-y-4">
           {tabs}
           {tabContent && (
-            <div className="bg-white border border-slate-200/80 rounded-xl p-4 min-h-[300px]">
+            <div className="bg-white border border-slate-200/80 rounded-2xl p-5 md:p-6 min-h-[320px] shadow-xs">
               {tabContent}
             </div>
           )}
@@ -63,10 +63,10 @@ export const ContractDetailLayout: React.FC<ContractDetailLayoutProps> = ({
 
   if (isModal) {
     return createPortal(
-      <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex justify-center items-center p-4">
+      <div className="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-md flex justify-center items-center p-3 sm:p-5">
         <div
-          className="modal-box bg-white border border-slate-200 text-slate-800 rounded-2xl w-11/12 max-w-[1320px] max-h-[95vh] overflow-y-auto p-6 relative"
-          style={{ zoom: 1.02 }}
+          className="modal-box bg-white border border-slate-200/90 text-slate-800 rounded-3xl w-11/12 max-w-[1550px] max-h-[94vh] overflow-y-auto p-6 md:p-7 relative shadow-2xl"
+          style={{ zoom: 1.01 }}
         >
           {content}
         </div>

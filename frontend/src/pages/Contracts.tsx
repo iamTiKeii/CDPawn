@@ -901,29 +901,41 @@ export const Contracts: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-slate-800 animate-fade-in w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 font-sans pb-10">
       
-      {/* Title block */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white border border-slate-200/80 p-6 rounded-2xl">
-        <div>
-          <h1 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
-            <FileText className="text-amber-500 w-7 h-7" />
-            {activeTab === "pawn" ? "HỢP ĐỒNG CẦM ĐỒ" : "HỢP ĐỒNG TÍN CHẤP"}
-          </h1>
-          <p className="text-slate-500 text-sm mt-1">
-            {activeTab === "pawn"
-              ? "Quản lý danh sách, đóng lãi suất, nợ gốc và các thông tin chi tiết hợp đồng thế chấp tài sản."
-              : "Quản lý danh sách, đóng lãi suất, nợ gốc và các thông tin chi tiết hợp đồng tín chấp."}
-          </p>
+      {/* ── Title Header Banner ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center text-white shadow-md shadow-amber-500/20 shrink-0">
+            <FileText className="w-7 h-7" />
+          </div>
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
+                {activeTab === "pawn" ? "HỢP ĐỒNG CẦM ĐỒ" : activeTab === "unsecured" ? "HỢP ĐỒNG TÍN CHẤP" : "HỢP ĐỒNG TRẢ GÓP"}
+              </h1>
+            </div>
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+              <span>Chi nhánh: <strong className="text-slate-700">{activeStore?.name || "Tất cả"}</strong></span>
+              <span>•</span>
+              <span>Tổng số hợp đồng: <strong className="text-slate-700">{totalRecords}</strong></span>
+            </p>
+          </div>
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
-          <button onClick={() => fetchContracts()} className="btn btn-outline border-slate-200 text-slate-600 btn-sm">
-            <RefreshCw className="w-4 h-4 animate-spin-hover" />
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => fetchContracts()}
+            type="button"
+            className="btn btn-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-none rounded-xl font-medium px-4 transition-all flex items-center gap-1.5"
+          >
+            <RefreshCw className={`w-4 h-4 text-slate-500 ${loading ? "animate-spin" : ""}`} />
+            Làm mới
           </button>
         </div>
       </div>
 
-      {/* SUMMARY BOXES ROW matching Image 1 */}
+      {/* ── SUMMARY BOXES ROW (5 KPI Metric Cards) ── */}
       {(activeTab === "pawn" || activeTab === "unsecured" || activeTab === "installment") && (() => {
         const lent = contractTotals.totalLent;
         const debt = contractTotals.totalDebt;
@@ -932,42 +944,75 @@ export const Contracts: React.FC = () => {
 
         return (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden">
-              <div>
+            
+            {/* Card 1: QUỸ TIỀN MẶT */}
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all relative overflow-hidden group">
+              <div className="flex items-center justify-between">
                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">QUỸ TIỀN MẶT</p>
-                <h3 className="text-lg font-black text-red-500 mt-1">{formatCurrency(cashFundVal).replace("₫", "")}</h3>
+                <button 
+                  onClick={fetchCashSummary} 
+                  type="button"
+                  className="btn btn-ghost btn-circle btn-xs text-purple-600 p-0 hover:bg-purple-50"
+                  title="Cập nhật quỹ két"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                </button>
               </div>
-              <button 
-                onClick={fetchCashSummary} 
-                className="absolute top-3 right-3 btn btn-ghost btn-circle btn-xs text-red-500 p-0"
-                title="Cập nhật quỹ két"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-              </button>
+              <div className="mt-2">
+                <h3 className="text-xl font-black text-purple-700 tracking-tight">
+                  {formatCurrency(cashFundVal).replace("₫", "")} <span className="text-xs text-purple-500">đ</span>
+                </h3>
+              </div>
             </div>
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm">
+
+            {/* Card 2: TIỀN CHO VAY */}
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all group">
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">TIỀN CHO VAY</p>
-              <h3 className="text-lg font-black text-blue-500 mt-1">{formatCurrency(lent).replace("₫", "")}</h3>
+              <div className="mt-2">
+                <h3 className="text-xl font-black text-blue-600 tracking-tight">
+                  {formatCurrency(lent).replace("₫", "")} <span className="text-xs text-blue-400">đ</span>
+                </h3>
+              </div>
             </div>
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm">
+
+            {/* Card 3: TIỀN NỢ */}
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all group">
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">TIỀN NỢ</p>
-              <h3 className="text-lg font-black text-red-500 mt-1">{formatCurrency(debt).replace("₫", "")}</h3>
+              <div className="mt-2">
+                <h3 className="text-xl font-black text-rose-600 tracking-tight">
+                  {formatCurrency(debt).replace("₫", "")} <span className="text-xs text-rose-400">đ</span>
+                </h3>
+              </div>
             </div>
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm">
+
+            {/* Card 4: LÃI DỰ KIẾN */}
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all group">
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">LÃI DỰ KIẾN</p>
-              <h3 className="text-lg font-black text-blue-500 mt-1">{formatCurrency(expected).replace("₫", "")}</h3>
+              <div className="mt-2">
+                <h3 className="text-xl font-black text-indigo-600 tracking-tight">
+                  {formatCurrency(expected).replace("₫", "")} <span className="text-xs text-indigo-400">đ</span>
+                </h3>
+              </div>
             </div>
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm">
+
+            {/* Card 5: LÃI ĐÃ THU */}
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all group">
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">LÃI ĐÃ THU</p>
-              <h3 className="text-lg font-black text-blue-500 mt-1">{formatCurrency(paid).replace("₫", "")}</h3>
+              <div className="mt-2">
+                <h3 className="text-xl font-black text-emerald-600 tracking-tight">
+                  {formatCurrency(paid).replace("₫", "")} <span className="text-xs text-emerald-400">đ</span>
+                </h3>
+              </div>
             </div>
+
           </div>
         );
       })()}
 
-      {/* FILTER CONTROLS ROW matching Image 1 */}
+      {/* ── FILTER CONTROLS TOOLBAR ── */}
       {(activeTab === "pawn" || activeTab === "unsecured" || activeTab === "installment") ? (
-        <div className="grid grid-cols-1 md:grid-cols-7 gap-2 items-center bg-slate-50 border border-slate-200/80 p-3 rounded-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-2.5 items-center bg-white border border-slate-200/80 p-4 rounded-3xl shadow-sm">
+          
           {/* Search customer */}
           <div className={`relative ${activeTab === "pawn" ? "md:col-span-2" : activeTab === "unsecured" ? "md:col-span-3" : "md:col-span-2"}`}>
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
@@ -978,7 +1023,7 @@ export const Contracts: React.FC = () => {
               placeholder="Tìm theo Mã HĐ, Tên, SĐT, CCCD"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="input input-bordered w-full pl-9 bg-white border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
+              className="input input-sm w-full pl-9 bg-slate-50 border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:bg-white focus:outline-none rounded-xl"
             />
           </div>
 
@@ -991,7 +1036,7 @@ export const Contracts: React.FC = () => {
                   placeholder="Tìm theo tài sản"
                   value={searchAsset}
                   onChange={(e) => setSearchAsset(e.target.value)}
-                  className="input input-bordered w-full bg-white border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
+                  className="input input-sm w-full bg-slate-50 border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:bg-white focus:outline-none rounded-xl"
                 />
               </div>
 
@@ -1000,7 +1045,7 @@ export const Contracts: React.FC = () => {
                 <select
                   value={commodityIdFilter}
                   onChange={(e) => setCommodityIdFilter(e.target.value)}
-                  className="select select-bordered w-full bg-white border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
+                  className="select select-sm select-bordered w-full bg-slate-50 border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
                 >
                   <option value="">Loại tài sản</option>
                   {commodities.map((c) => (
@@ -1016,7 +1061,7 @@ export const Contracts: React.FC = () => {
               <select
                 value={""}
                 onChange={() => {}}
-                className="select select-bordered w-full bg-white border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
+                className="select select-sm select-bordered w-full bg-slate-50 border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
               >
                 <option value="">Thời gian vay</option>
               </select>
@@ -1028,7 +1073,7 @@ export const Contracts: React.FC = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="select select-bordered w-full bg-white border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
+              className="select select-sm select-bordered w-full bg-slate-50 border-slate-200 text-slate-800 text-xs focus:border-amber-500 focus:outline-none rounded-xl"
             >
               <option value="all_active">Tất cả hợp đồng đang vay</option>
               <option value="overdue">Hợp đồng quá hạn</option>
@@ -1039,26 +1084,37 @@ export const Contracts: React.FC = () => {
 
           {/* Buttons: Lọc, + Thêm mới, ... */}
           <div className="md:col-span-2 flex gap-1.5 w-full justify-end">
-            <button onClick={() => fetchContracts()} className="btn btn-outline border-blue-200 text-blue-500 hover:bg-blue-50 btn-sm text-xs rounded-xl flex items-center gap-1">
+            <button
+              onClick={() => fetchContracts()}
+              type="button"
+              className="btn btn-sm bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200 text-xs rounded-xl flex items-center gap-1 font-semibold"
+            >
               <Filter className="w-3.5 h-3.5" />
               Lọc
             </button>
-            <button onClick={openCreateModal} className="btn btn-primary bg-emerald-600 hover:bg-emerald-700 border-none text-white btn-sm text-xs font-bold rounded-xl flex items-center gap-1 flex-1 md:flex-none">
+            <button
+              onClick={openCreateModal}
+              type="button"
+              className="btn btn-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border-none text-white text-xs font-bold rounded-xl flex items-center gap-1 flex-1 md:flex-none shadow-sm shadow-emerald-500/20"
+            >
               <Plus className="w-4 h-4" />
               Thêm mới
             </button>
             
             {activeTab === "installment" ? (
-              <button onClick={handleExportExcel} className="btn btn-primary bg-[#1F4E79] hover:bg-[#153654] border-none text-white btn-sm text-xs font-bold rounded-xl flex items-center gap-1">
+              <button
+                onClick={handleExportExcel}
+                type="button"
+                className="btn btn-sm bg-slate-800 hover:bg-slate-900 border-none text-white text-xs font-bold rounded-xl flex items-center gap-1"
+              >
                 <FileSpreadsheet className="w-3.5 h-3.5" />
                 Xuất Excel
               </button>
             ) : (
-              /* Top dropdown trigger next to add new */
               <ActionMenu
                 align="right"
                 trigger={
-                  <button type="button" className="btn btn-primary bg-blue-500 hover:bg-blue-600 border-none text-white btn-sm text-xs rounded-xl flex items-center justify-center">
+                  <button type="button" className="btn btn-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-none text-xs rounded-xl flex items-center justify-center">
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
                 }
@@ -1074,7 +1130,6 @@ export const Contracts: React.FC = () => {
           </div>
         </div>
       ) : (
-        /* Legacy search for loan/installment */
         <div className="relative">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
             <Search className="w-5 h-5" />
@@ -1089,33 +1144,34 @@ export const Contracts: React.FC = () => {
         </div>
       )}
 
-      {/* List display */}
+      {/* ── LIST CONTRACTS DISPLAY ── */}
       {loading ? (
-        <div className="flex justify-center p-12">
+        <div className="flex flex-col items-center justify-center min-h-[350px] gap-3">
           <span className="loading loading-spinner loading-lg text-amber-500"></span>
+          <span className="text-xs text-slate-500 font-medium">Đang tải danh sách hợp đồng...</span>
         </div>
       ) : (
-        <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-lg">
+        <div className="bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             {activeTab === "pawn" && (
-              <table className="table w-full text-slate-600">
+              <table className="table w-full text-slate-700">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 font-bold text-xs bg-slate-50/50">
-                    <th className="py-3 bg-slate-50/30">#</th>
-                    <th className="py-3">Mã HĐ</th>
-                    <th className="py-3">Khách hàng</th>
-                    <th className="py-3">Tên tài sản</th>
-                    <th className="py-3">Tiền cầm</th>
-                    <th className="py-3">Ngày cầm</th>
-                    <th className="py-3">Lãi đã đóng</th>
-                    <th className="py-3">Tiền nợ</th>
-                    <th className="py-3">Lãi tạm tính</th>
-                    <th className="py-3">Ngày phải đóng</th>
-                    <th className="py-3">Tình trạng</th>
-                    <th className="py-3 text-right">Chức năng</th>
+                  <tr className="border-b border-slate-200 text-slate-600 font-bold text-xs bg-slate-50/80 uppercase">
+                    <th className="py-3.5 pl-4 text-center">#</th>
+                    <th className="py-3.5">Mã HĐ</th>
+                    <th className="py-3.5">Khách hàng</th>
+                    <th className="py-3.5">Tên tài sản</th>
+                    <th className="py-3.5">Tiền cầm</th>
+                    <th className="py-3.5">Ngày cầm</th>
+                    <th className="py-3.5">Lãi đã đóng</th>
+                    <th className="py-3.5">Tiền nợ</th>
+                    <th className="py-3.5">Lãi tạm tính</th>
+                    <th className="py-3.5">Ngày phải đóng</th>
+                    <th className="py-3.5">Tình trạng</th>
+                    <th className="py-3.5 pr-4 text-right">Chức năng</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs">
                   {filteredPawnList.map((item, index) => {
                     const nextPayDate = getNextPaymentDate(item);
                     const isOverdue = nextPayDate && nextPayDate.getTime() < new Date().getTime();
@@ -1123,22 +1179,22 @@ export const Contracts: React.FC = () => {
                     const accruedDays = getAccruedDays(item);
 
                     return (
-                      <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/20 text-xs">
-                        <td className="font-semibold text-slate-400 py-3.5">{index + 1}</td>
-                        <td className="font-bold text-amber-500">
+                      <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
+                        <td className="font-semibold text-slate-400 py-3.5 text-center">{index + 1}</td>
+                        <td className="font-bold text-amber-600">
                           <button onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("interest"); }} className="hover:underline">
                             {item.contract_code}
                           </button>
                         </td>
-                        <td className="font-semibold text-slate-700">
+                        <td className="font-semibold text-slate-800">
                           <button onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("interest"); }} className="text-blue-600 hover:underline">
                             {item.customer?.full_name}
                           </button>
                         </td>
-                        <td className="text-slate-500 font-semibold">{item.asset_name}</td>
+                        <td className="text-slate-600 font-medium">{item.asset_name}</td>
                         <td>
-                          <span className="font-bold text-slate-800">{formatCurrency(item.loan_amount).replace("₫", "")}</span>
-                          <span className="block text-[10px] text-red-500 font-semibold">
+                          <span className="font-bold text-slate-900">{formatCurrency(item.loan_amount).replace("₫", "")}</span>
+                          <span className="block text-[10px] text-rose-500 font-semibold">
                             {formatInterestRateText(Number(item.interest_rate), item.interest_type?.code, item.period_value)}
                           </span>
                         </td>
@@ -1147,18 +1203,18 @@ export const Contracts: React.FC = () => {
                           <span className="block text-[10px] text-slate-400 font-semibold">({formatDurationDisplay(item.loan_days, item.interest_type?.code)})</span>
                         </td>
                         <td className="font-semibold text-slate-700">{formatCurrency(getPaidInterest(item)).replace("₫", "")}</td>
-                        <td className="font-bold text-red-500">{formatCurrency(item.debt_amount || 0).replace("₫", "")}</td>
+                        <td className="font-bold text-rose-600">{formatCurrency(item.debt_amount || 0).replace("₫", "")}</td>
                         <td>
                           <span className="font-bold text-blue-600">{formatCurrency(accruedInt).replace("₫", "")}</span>
                           <span className="block text-[10px] text-blue-500 font-semibold">({accruedDays} ngày)</span>
                         </td>
                         <td className="py-3">
                           <div className="flex items-center gap-1 font-semibold">
-                            <span className={isOverdue ? "text-red-500 font-bold" : "text-slate-700"}>
+                            <span className={isOverdue ? "text-rose-600 font-bold" : "text-slate-700"}>
                               {nextPayDate ? nextPayDate.toLocaleDateString("vi-VN") : "--"}
                             </span>
                             {nextPayDate && (
-                              <Bell className={`w-3.5 h-3.5 ${isOverdue ? "text-red-500 fill-red-100 animate-bounce" : "text-red-500 fill-red-100"}`} />
+                              <Bell className={`w-3.5 h-3.5 ${isOverdue ? "text-rose-500 fill-rose-100 animate-bounce" : "text-rose-400 fill-rose-50"}`} />
                             )}
                           </div>
                         </td>
@@ -1168,37 +1224,35 @@ export const Contracts: React.FC = () => {
                             const badgeColor = detailed.status === "active"
                               ? "bg-emerald-500 text-white"
                               : detailed.status === "today_pawn_interest"
-                              ? "bg-[#3b82f6] text-white"
+                              ? "bg-blue-600 text-white"
                               : detailed.status === "due_pawn_contract"
-                              ? "bg-[#2563eb] text-white"
+                              ? "bg-blue-700 text-white"
                               : detailed.status === "overdue_pawn_interest"
-                              ? "bg-[#ff9800] text-white"
+                              ? "bg-amber-500 text-white"
                               : detailed.status === "overdue_pawn_contract"
-                              ? "bg-[#ef4444] text-white"
+                              ? "bg-rose-500 text-white"
                               : detailed.status === "waiting_liquidation"
-                              ? "bg-[#7c3aed] text-white"
+                              ? "bg-purple-600 text-white"
                               : detailed.status === "liquidated"
                               ? "bg-slate-500 text-white"
                               : "bg-slate-100 text-slate-500";
                             return (
-                              <span className={`badge badge-sm font-bold text-xs uppercase border-none px-2 rounded ${badgeColor}`}>
+                              <span className={`badge badge-sm font-bold text-[10px] uppercase border-none px-2 rounded-lg ${badgeColor}`}>
                                 {detailed.label}
                               </span>
                             );
                           })()}
                         </td>
-                        <td className="text-right py-3.5">
+                        <td className="text-right py-3.5 pr-4">
                           <div className="flex items-center justify-end gap-1.5">
-                            {/* Fast collection interest button */}
                             <button
                               onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("interest"); }}
-                              className="btn btn-warning bg-amber-400 hover:bg-amber-500 border-none text-slate-900 btn-circle btn-xs"
+                              className="btn btn-warning bg-amber-400 hover:bg-amber-500 border-none text-slate-900 btn-circle btn-xs shadow-sm"
                               title="Đóng tiền lãi"
                             >
                               <Coins className="w-3.5 h-3.5" />
                             </button>
 
-                            {/* Dropdown triggers actions */}
                             <ActionMenu
                               align="right"
                               items={[
@@ -1236,26 +1290,26 @@ export const Contracts: React.FC = () => {
                     );
                   })}
 
-                  {/* Summary Totals Row matching Image 1 */}
                   {filteredPawnList.length > 0 && (
-                    <tr className="bg-slate-50/50 border-t border-b border-slate-200 text-xs font-extrabold">
-                      <td colSpan={4} className="text-right py-3.5 text-red-600">Tổng tiền:</td>
-                      <td className="text-red-600">{formatCurrency(totalLent).replace("₫", "")}</td>
+                    <tr className="bg-slate-50/80 border-t border-b border-slate-200 text-xs font-extrabold">
+                      <td colSpan={4} className="text-right py-3.5 text-rose-600">Tổng tiền:</td>
+                      <td className="text-rose-600">{formatCurrency(totalLent).replace("₫", "")}</td>
                       <td></td>
-                      <td className="text-red-600">{formatCurrency(totalPaidInterest).replace("₫", "")}</td>
-                      <td className="text-red-600">{formatCurrency(totalDebt).replace("₫", "")}</td>
-                      <td className="text-red-600">{formatCurrency(totalExpectedInterest).replace("₫", "")}</td>
+                      <td className="text-rose-600">{formatCurrency(totalPaidInterest).replace("₫", "")}</td>
+                      <td className="text-rose-600">{formatCurrency(totalDebt).replace("₫", "")}</td>
+                      <td className="text-rose-600">{formatCurrency(totalExpectedInterest).replace("₫", "")}</td>
                       <td colSpan={3}></td>
                     </tr>
                   )}
                 </tbody>
               </table>
             )}
+
             {activeTab === "unsecured" && (
-              <table className="table w-full text-slate-600 text-xs">
+              <table className="table w-full text-slate-700 text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200/80 text-slate-500">
-                    <th className="w-8">#</th>
+                  <tr className="border-b border-slate-200 text-slate-600 font-bold text-xs bg-slate-50/80 uppercase">
+                    <th className="w-8 py-3.5 pl-4 text-center">#</th>
                     <th>Mã HĐ</th>
                     <th>Khách hàng</th>
                     <th>Tài sản</th>
@@ -1279,7 +1333,7 @@ export const Contracts: React.FC = () => {
                     <th>Lãi tạm tính</th>
                     <th>Ngày phải đóng</th>
                     <th>Tình trạng</th>
-                    <th className="w-20 text-center">Chức năng</th>
+                    <th className="w-20 text-center pr-4">Chức năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1292,9 +1346,9 @@ export const Contracts: React.FC = () => {
                     const isOverdue = nextPayDate && nextPayDate < new Date();
 
                     return (
-                      <tr key={item.id} className="border-b border-slate-200/60 hover:bg-slate-50/40 text-xs text-slate-700">
-                        <td className="font-semibold text-slate-400">{index + 1}</td>
-                        <td className="font-bold text-amber-500">{item.contract_code}</td>
+                      <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors text-xs text-slate-700">
+                        <td className="font-semibold text-slate-400 text-center">{index + 1}</td>
+                        <td className="font-bold text-amber-600">{item.contract_code}</td>
                         <td className="font-semibold">
                           <button
                             type="button"
@@ -1308,8 +1362,8 @@ export const Contracts: React.FC = () => {
                           {item.commodity?.code || ""}
                         </td>
                         <td>
-                          <div className="font-black text-slate-800">{formatCurrency(item.loan_amount).replace("₫", "")}</div>
-                          {interestLabel && <div className="text-[10px] text-red-500 font-bold mt-0.5">{interestLabel}</div>}
+                          <div className="font-black text-slate-900">{formatCurrency(item.loan_amount).replace("₫", "")}</div>
+                          {interestLabel && <div className="text-[10px] text-rose-500 font-bold mt-0.5">{interestLabel}</div>}
                         </td>
                         <td className="text-right font-black text-blue-600">
                           {formatCurrency(item.totalRepayment || 0).replace("₫", "")}
@@ -1318,10 +1372,10 @@ export const Contracts: React.FC = () => {
                           <div>{new Date(item.loan_date).toLocaleDateString("vi-VN")}</div>
                           <div className="text-[10px] text-slate-400 mt-0.5">({formatDurationDisplay(item.loan_days, item.interest_type?.code)})</div>
                         </td>
-                        <td className="font-bold text-slate-600">
+                        <td className="font-bold text-slate-700">
                           {formatCurrency(paidInt).replace("₫", "")}
                         </td>
-                        <td className="font-bold text-red-500">
+                        <td className="font-bold text-rose-600">
                           {formatCurrency(item.debt_amount).replace("₫", "")}
                         </td>
                         <td>
@@ -1336,11 +1390,11 @@ export const Contracts: React.FC = () => {
                         </td>
                         <td>
                           <div className="flex items-center gap-1 font-semibold">
-                            <span className={isOverdue ? "text-red-500 font-bold" : "text-slate-700 font-medium"}>
+                            <span className={isOverdue ? "text-rose-600 font-bold" : "text-slate-700 font-medium"}>
                               {nextPayDate ? nextPayDate.toLocaleDateString("vi-VN") : "--"}
                             </span>
                             {nextPayDate && (
-                              <Bell className={`w-3.5 h-3.5 ${isOverdue ? "text-red-500 fill-red-100 animate-bounce" : "text-red-500 fill-red-100"}`} />
+                              <Bell className={`w-3.5 h-3.5 ${isOverdue ? "text-rose-500 fill-rose-100 animate-bounce" : "text-rose-400 fill-rose-50"}`} />
                             )}
                           </div>
                         </td>
@@ -1350,27 +1404,27 @@ export const Contracts: React.FC = () => {
                             const badgeColor = detailed.status === "active"
                               ? "bg-emerald-500 text-white"
                               : detailed.status === "today_unsecured_interest"
-                              ? "bg-[#3b82f6] text-white"
+                              ? "bg-blue-600 text-white"
                               : detailed.status === "due_unsecured_contract"
-                              ? "bg-[#2563eb] text-white"
+                              ? "bg-blue-700 text-white"
                               : detailed.status === "overdue_unsecured_interest"
-                              ? "bg-[#ff9800] text-white"
+                              ? "bg-amber-500 text-white"
                               : detailed.status === "overdue_unsecured_bad_debt"
-                              ? "bg-[#ef4444] text-white"
+                              ? "bg-rose-500 text-white"
                               : "bg-slate-100 text-slate-500";
                             return (
-                              <span className={`badge badge-sm font-bold uppercase text-[10px] border-none px-2 rounded ${badgeColor}`}>
+                              <span className={`badge badge-sm font-bold uppercase text-[10px] border-none px-2 rounded-lg ${badgeColor}`}>
                                 {detailed.label}
                               </span>
                             );
                           })()}
                         </td>
-                        <td className="text-center py-2.5">
+                        <td className="text-center py-2.5 pr-4">
                           <div className="flex items-center justify-center gap-1">
                             <button
                               type="button"
                               onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("interest"); }}
-                              className="btn btn-ghost btn-circle btn-xs text-blue-500 hover:bg-blue-50"
+                              className="btn btn-ghost btn-circle btn-xs text-blue-600 hover:bg-blue-50"
                               title="Đóng tiền lãi"
                               disabled={item.status === "closed"}
                             >
@@ -1418,16 +1472,15 @@ export const Contracts: React.FC = () => {
                     );
                   })}
 
-                  {/* Summary Totals Row matching Image 1 */}
                   {filteredUnsecuredList.length > 0 && (
-                    <tr className="bg-slate-50/50 border-t border-b border-slate-200 text-xs font-extrabold">
-                      <td colSpan={4} className="text-right py-3.5 text-red-600">Tổng tiền:</td>
-                      <td className="text-red-600">{formatCurrency(totalUnsecuredLent).replace("₫", "")}</td>
-                      <td className="text-right text-red-600">{formatCurrency(totalUnsecuredRepayment).replace("₫", "")}</td>
+                    <tr className="bg-slate-50/80 border-t border-b border-slate-200 text-xs font-extrabold">
+                      <td colSpan={4} className="text-right py-3.5 text-rose-600">Tổng tiền:</td>
+                      <td className="text-rose-600">{formatCurrency(totalUnsecuredLent).replace("₫", "")}</td>
+                      <td className="text-right text-rose-600">{formatCurrency(totalUnsecuredRepayment).replace("₫", "")}</td>
                       <td></td>
-                      <td className="text-red-600">{formatCurrency(totalUnsecuredPaidInterest).replace("₫", "")}</td>
-                      <td className="text-red-600">{formatCurrency(totalUnsecuredDebt).replace("₫", "")}</td>
-                      <td className="text-red-600">{formatCurrency(totalUnsecuredExpectedInterest).replace("₫", "")}</td>
+                      <td className="text-rose-600">{formatCurrency(totalUnsecuredPaidInterest).replace("₫", "")}</td>
+                      <td className="text-rose-600">{formatCurrency(totalUnsecuredDebt).replace("₫", "")}</td>
+                      <td className="text-rose-600">{formatCurrency(totalUnsecuredExpectedInterest).replace("₫", "")}</td>
                       <td colSpan={3}></td>
                     </tr>
                   )}
@@ -1436,22 +1489,22 @@ export const Contracts: React.FC = () => {
             )}
 
             {activeTab === "installment" && (
-              <table className="table w-full text-slate-600 text-xs">
+              <table className="table w-full text-slate-700 text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 font-bold text-xs bg-slate-50/50">
-                    <th className="py-3 bg-slate-50/30">#</th>
-                    <th className="py-3">Mã HĐ</th>
-                    <th className="py-3">Khách hàng</th>
-                    <th className="py-3">Tiền giao khách</th>
-                    <th className="py-3">Tỷ lệ</th>
-                    <th className="py-3">Thời gian</th>
-                    <th className="py-3">Tiền đã đóng</th>
-                    <th className="py-3">Nợ cũ</th>
-                    <th className="py-3">Tiền 1 ngày</th>
-                    <th className="py-3">Còn phải đóng</th>
-                    <th className="py-3">Ngày phải đóng</th>
-                    <th className="py-3">Tình trạng</th>
-                    <th className="py-3 text-right">Chức năng</th>
+                  <tr className="border-b border-slate-200 font-bold text-xs bg-slate-50/80 uppercase">
+                    <th className="py-3.5 pl-4 text-center">#</th>
+                    <th className="py-3.5">Mã HĐ</th>
+                    <th className="py-3.5">Khách hàng</th>
+                    <th className="py-3.5">Tiền giao khách</th>
+                    <th className="py-3.5">Tỷ lệ</th>
+                    <th className="py-3.5">Thời gian</th>
+                    <th className="py-3.5">Tiền đã đóng</th>
+                    <th className="py-3.5">Nợ cũ</th>
+                    <th className="py-3.5">Tiền 1 ngày</th>
+                    <th className="py-3.5">Còn phải đóng</th>
+                    <th className="py-3.5">Ngày phải đóng</th>
+                    <th className="py-3.5">Tình trạng</th>
+                    <th className="py-3.5 pr-4 text-right">Chức năng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1466,7 +1519,6 @@ export const Contracts: React.FC = () => {
                     const endDateStr = endDate.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
 
                     const totalDisbursed = Number(item.disbursed_amount);
-
                     const paidCycles = item.paid_cycles || 0;
                     const remainingCycles = item.remaining_cycles || 0;
 
@@ -1474,20 +1526,19 @@ export const Contracts: React.FC = () => {
                       ? new Date(item.next_payment_date).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })
                       : "--";
 
-
                     return (
-                      <tr key={item.id} className="border-b border-slate-200/80 hover:bg-slate-50/30 text-xs">
-                        <td className="py-3.5 pl-4 font-bold text-slate-400">{idx + 1}</td>
-                        <td className="font-bold text-slate-800">
+                      <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors text-xs">
+                        <td className="py-3.5 pl-4 text-center font-bold text-slate-400">{idx + 1}</td>
+                        <td className="font-bold text-amber-600">
                           <button
                             type="button"
                             onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("schedule"); }}
-                            className="text-amber-500 hover:underline"
+                            className="hover:underline"
                           >
                             {item.contract_code}
                           </button>
                         </td>
-                        <td className="font-semibold text-slate-700">
+                        <td className="font-semibold text-slate-800">
                           <button
                             type="button"
                             onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("schedule"); }}
@@ -1496,9 +1547,9 @@ export const Contracts: React.FC = () => {
                             {item.customer?.full_name}
                           </button>
                         </td>
-                        <td className="font-bold text-slate-800">{formatCurrency(totalDisbursed).replace("₫", "")}</td>
-                        <td className="font-bold text-slate-600">{ratioStr}</td>
-                        <td className="text-slate-600">
+                        <td className="font-bold text-slate-900">{formatCurrency(totalDisbursed).replace("₫", "")}</td>
+                        <td className="font-bold text-slate-700">{ratioStr}</td>
+                        <td className="text-slate-700">
                           <div>{loanDateStr} ➔ {endDateStr}</div>
                           <div className="text-[10px] text-slate-400 font-semibold">({item.loan_duration} ngày)</div>
                         </td>
@@ -1506,9 +1557,9 @@ export const Contracts: React.FC = () => {
                           <div>{formatCurrency(item.total_paid || 0).replace("₫", "")}</div>
                           <div className="text-[10px] text-slate-400 font-semibold">({paidCycles} kỳ)</div>
                         </td>
-                        <td className="font-bold text-red-500">{formatCurrency(Number(item.debt_amount || 0)).replace("₫", "")}</td>
-                        <td className="font-bold text-slate-700">{formatCurrency(item.daily_payment || 0).replace("₫", "")}</td>
-                        <td className="font-bold text-red-500">
+                        <td className="font-bold text-rose-600">{formatCurrency(Number(item.debt_amount || 0)).replace("₫", "")}</td>
+                        <td className="font-bold text-slate-800">{formatCurrency(item.daily_payment || 0).replace("₫", "")}</td>
+                        <td className="font-bold text-rose-600">
                           <div>{formatCurrency(item.remaining_amount || 0).replace("₫", "")}</div>
                           <div className="text-[10px] text-slate-400 font-semibold">({remainingCycles} kỳ)</div>
                         </td>
@@ -1518,11 +1569,11 @@ export const Contracts: React.FC = () => {
                             const isOverdueInstallment = detailed.status === "overdue_installment_cycle" || detailed.status === "overdue_installment_bad_debt";
                             return (
                               <div className="flex items-center gap-1 font-semibold">
-                                <span className={isOverdueInstallment ? "text-red-500 font-bold" : "text-blue-600 font-bold"}>
+                                <span className={isOverdueInstallment ? "text-rose-600 font-bold" : "text-blue-600 font-bold"}>
                                   {nextPayDateStr}
                                 </span>
                                 {item.next_payment_date && (
-                                  <Bell className={`w-3.5 h-3.5 ${isOverdueInstallment ? "text-red-500 fill-red-100 animate-bounce" : "text-red-500 fill-red-100"}`} />
+                                  <Bell className={`w-3.5 h-3.5 ${isOverdueInstallment ? "text-rose-500 fill-rose-100 animate-bounce" : "text-rose-400 fill-rose-50"}`} />
                                 )}
                               </div>
                             );
@@ -1534,14 +1585,14 @@ export const Contracts: React.FC = () => {
                             const badgeColor = detailed.status === "active"
                               ? "bg-emerald-500 text-white"
                               : detailed.status === "today_installment_due"
-                              ? "bg-[#3b82f6] text-white"
+                              ? "bg-blue-600 text-white"
                               : detailed.status === "overdue_installment_cycle"
-                              ? "bg-[#ff9800] text-white"
+                              ? "bg-amber-500 text-white"
                               : detailed.status === "overdue_installment_bad_debt"
-                              ? "bg-[#ef4444] text-white"
+                              ? "bg-rose-500 text-white"
                               : "bg-slate-100 text-slate-500";
                             return (
-                              <span className={`badge badge-xs font-bold uppercase text-[9px] px-1.5 py-2 border-none rounded ${badgeColor}`}>
+                              <span className={`badge badge-sm font-bold uppercase text-[10px] border-none px-2 rounded-lg ${badgeColor}`}>
                                 {detailed.label}
                               </span>
                             );
@@ -1549,16 +1600,15 @@ export const Contracts: React.FC = () => {
                         </td>
                         <td className="text-right py-3.5 pr-4">
                           <div className="flex items-center justify-end gap-1.5">
-                            {/* Edit/Detail icon */}
                             <button
+                              type="button"
                               onClick={() => { setSelectedDetailId(item.id); setDetailDefaultTab("schedule"); }}
-                              className="btn btn-warning bg-amber-400 hover:bg-amber-500 border-none text-slate-900 btn-circle btn-xs"
+                              className="btn btn-warning bg-amber-400 hover:bg-amber-500 border-none text-slate-900 btn-circle btn-xs shadow-sm"
                               title="Xem chi tiết & đóng tiền"
                             >
                               <Coins className="w-3.5 h-3.5" />
                             </button>
 
-                            {/* Dropdown triggers actions */}
                             <ActionMenu
                               align="right"
                               items={[
@@ -1571,11 +1621,6 @@ export const Contracts: React.FC = () => {
                                   label: "Đóng hợp đồng",
                                   icon: <Anchor className="w-3.5 h-3.5 text-blue-500" />,
                                   onClick: () => { setSelectedDetailId(item.id); setDetailDefaultTab("redeem"); }
-                                },
-                                {
-                                  label: "Chuyển sang nợ xấu",
-                                  icon: <Trash2 className="w-3.5 h-3.5 text-red-500" />,
-                                  onClick: () => {}
                                 },
                                 {
                                   label: "Hẹn giờ khoản vay",
@@ -1605,7 +1650,6 @@ export const Contracts: React.FC = () => {
                     );
                   })}
 
-                  {/* Summary Totals Row matching Image 1 */}
                   {filteredInstallmentList.length > 0 && (() => {
                     const totalDisbursedSum = filteredInstallmentList.reduce((sum, item) => sum + Number(item.disbursed_amount || 0), 0);
                     const totalPaidSum = filteredInstallmentList.reduce((sum, item) => sum + (item.total_paid || 0), 0);
@@ -1614,15 +1658,15 @@ export const Contracts: React.FC = () => {
                     const totalRemainingSum = filteredInstallmentList.reduce((sum, item) => sum + (item.remaining_amount || 0), 0);
 
                     return (
-                      <tr className="bg-slate-50/50 border-t border-b border-slate-200 text-xs font-extrabold">
-                        <td colSpan={3} className="text-right py-3.5 text-red-600">Tổng tiền:</td>
-                        <td className="text-red-600">{formatCurrency(totalDisbursedSum).replace("₫", "")}</td>
+                      <tr className="bg-slate-50/80 border-t border-b border-slate-200 text-xs font-extrabold">
+                        <td colSpan={3} className="text-right py-3.5 text-rose-600">Tổng tiền:</td>
+                        <td className="text-rose-600">{formatCurrency(totalDisbursedSum).replace("₫", "")}</td>
                         <td></td>
                         <td></td>
-                        <td className="text-red-600">{formatCurrency(totalPaidSum).replace("₫", "")}</td>
-                        <td className="text-red-600">{formatCurrency(totalDebtSum).replace("₫", "")}</td>
-                        <td className="text-red-600">{formatCurrency(totalDailyPaySum).replace("₫", "")}</td>
-                        <td className="text-red-600">{formatCurrency(totalRemainingSum).replace("₫", "")}</td>
+                        <td className="text-rose-600">{formatCurrency(totalPaidSum).replace("₫", "")}</td>
+                        <td className="text-rose-600">{formatCurrency(totalDebtSum).replace("₫", "")}</td>
+                        <td className="text-rose-600">{formatCurrency(totalDailyPaySum).replace("₫", "")}</td>
+                        <td className="text-rose-600">{formatCurrency(totalRemainingSum).replace("₫", "")}</td>
                         <td colSpan={3}></td>
                       </tr>
                     );
@@ -1636,11 +1680,11 @@ export const Contracts: React.FC = () => {
           {totalPages > 1 && (() => {
             const pageSize = 15;
             return (
-              <div className="flex justify-between items-center bg-white border border-slate-200/80 rounded-2xl p-4 mt-4 shadow-sm">
+              <div className="flex justify-between items-center bg-slate-50/80 border-t border-slate-200/80 p-4 shadow-sm">
                 <span className="text-xs text-slate-500 font-medium">
                   Hiển thị {(currentPage - 1) * pageSize + 1} - {Math.min(currentPage * pageSize, totalRecords)} trong tổng số {totalRecords} hợp đồng
                 </span>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     disabled={currentPage === 1}
@@ -1649,11 +1693,11 @@ export const Contracts: React.FC = () => {
                       setCurrentPage(next);
                       fetchContracts(next);
                     }}
-                    className="btn btn-sm btn-outline border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+                    className="btn btn-sm btn-outline border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-50 rounded-xl"
                   >
                     Trang trước
                   </button>
-                  <span className="flex items-center text-xs font-semibold text-slate-700 px-3 bg-slate-50 border border-slate-100 rounded-lg">
+                  <span className="flex items-center text-xs font-semibold text-slate-700 px-3 py-1 bg-white border border-slate-200 rounded-xl shadow-xs">
                     Trang {currentPage} / {totalPages}
                   </span>
                   <button
@@ -1664,7 +1708,7 @@ export const Contracts: React.FC = () => {
                       setCurrentPage(next);
                       fetchContracts(next);
                     }}
-                    className="btn btn-sm btn-outline border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+                    className="btn btn-sm btn-outline border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-50 rounded-xl"
                   >
                     Trang sau
                   </button>

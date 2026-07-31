@@ -356,35 +356,60 @@ export const Stores: React.FC = () => {
   const currentRecords = sortedStores.slice(indexOfFirstRecord, indexOfLastRecord);
 
   return (
-    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans">
+    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans pb-10">
       
-      {/* Title */}
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-slate-800 uppercase mt-2">
-          DANH SÁCH CỬA HÀNG
-        </h1>
+      {/* ── Title Header Banner ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 shrink-0">
+            <Edit2 className="w-7 h-7" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
+              DANH SÁCH CỬA HÀNG & CHI NHÁNH
+            </h1>
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+              <span>Quản lý danh sách chi nhánh, vốn đầu tư và thông tin địa điểm toàn hệ thống</span>
+              <span>•</span>
+              <span>Tổng số chi nhánh: <strong className="text-slate-700">{stores.length}</strong></span>
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={fetchStores}
+            type="button"
+            className="btn btn-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-none rounded-xl font-medium px-4 transition-all flex items-center gap-1.5"
+          >
+            <ChevronsUpDown className={`w-4 h-4 text-slate-500 ${loading ? "animate-spin" : ""}`} />
+            Làm mới
+          </button>
+        </div>
       </div>
 
-      {/* Filter bar */}
-      <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      {/* ── FILTER TOOLBAR ── */}
+      <div className="bg-white border border-slate-200/80 p-4 rounded-3xl shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         <div className="flex-1 flex flex-col sm:flex-row gap-3">
           {/* Search box */}
-          <input
-            type="text"
-            placeholder="Tìm kiếm tên đăng nhập hoặc họ tên"
-            value={searchQuery}
-            onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
-            className="input input-bordered input-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg placeholder-slate-350 sm:max-w-md w-full"
-          />
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Tìm kiếm tên cửa hàng, địa chỉ, sĐT..."
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+              className="input input-sm bg-slate-50 border-slate-200 focus:bg-white focus:outline-none focus:border-emerald-500 text-slate-800 text-xs rounded-xl w-full"
+            />
+          </div>
 
           {/* Status selector */}
           <select
             value={selectedStatusFilter}
             onChange={(e) => { setSelectedStatusFilter(e.target.value); setPage(1); }}
-            className="select select-bordered select-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg h-[32px] min-h-[32px] w-full sm:w-44"
+            className="select select-sm select-bordered bg-slate-50 border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-800 text-xs rounded-xl h-[32px] min-h-[32px] w-full sm:w-44"
           >
-            <option value="">Trạng thái</option>
-            <option value="active">Hoạt động</option>
+            <option value="">Tất cả trạng thái</option>
+            <option value="active">Đang hoạt động</option>
             <option value="inactive">Đã tạm dừng</option>
           </select>
         </div>
@@ -394,45 +419,46 @@ export const Stores: React.FC = () => {
           onClick={() => {
             setIsCreateOpen(true);
           }}
-          className="btn btn-primary bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-sm rounded-lg font-medium px-4 text-xs shadow-sm flex items-center justify-center gap-1 shrink-0"
+          className="btn btn-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border-none text-white font-bold rounded-xl px-5 text-xs shadow-sm shadow-emerald-500/20 flex items-center justify-center gap-1.5 shrink-0"
           type="button"
         >
           <Plus className="w-4 h-4" />
-          <span>Thêm mới</span>
+          <span>Thêm mới cửa hàng</span>
         </button>
       </div>
 
-      {/* Stores List Table */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
+      {/* ── STORES LIST TABLE CARD ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm">
         {loading ? (
-          <div className="flex justify-center p-16">
+          <div className="flex flex-col items-center justify-center min-h-[350px] gap-3">
             <span className="loading loading-spinner loading-lg text-emerald-500"></span>
+            <span className="text-xs text-slate-500 font-medium">Đang tải danh sách chi nhánh...</span>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="table w-full text-slate-700">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200/80 text-slate-500 text-xs font-semibold">
-                  <th className="w-12 text-center text-[11px]">#</th>
+                <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase">
+                  <th className="w-12 text-center py-3.5">#</th>
                   
                   {/* Sortable Store Name */}
                   <th 
                     onClick={() => handleSort("name")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
-                      <span>Cửa hàng</span>
+                      <span>Tên Cửa Hàng</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
                   </th>
 
-                  <th className="text-[11px] py-3">Địa chỉ</th>
-                  <th className="text-[11px] py-3">Điện thoại</th>
+                  <th className="py-3.5">Địa chỉ</th>
+                  <th className="py-3.5">Điện thoại</th>
 
                   {/* Sortable Capital */}
                   <th 
                     onClick={() => handleSort("investment_capital")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
                       <span>Vốn đầu tư</span>
@@ -443,7 +469,7 @@ export const Stores: React.FC = () => {
                   {/* Sortable Date Created */}
                   <th 
                     onClick={() => handleSort("created_at")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
                       <span>Ngày tạo</span>
@@ -451,11 +477,11 @@ export const Stores: React.FC = () => {
                     </div>
                   </th>
 
-                  <th className="text-[11px] py-3">Tình trạng</th>
-                  <th className="text-[11px] py-3 text-center">Chức năng</th>
+                  <th className="py-3.5">Tình trạng</th>
+                  <th className="py-3.5 text-center pr-4">Chức năng</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="text-xs">
                 {currentRecords.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="text-center py-16 bg-white text-slate-400 text-xs">
@@ -466,38 +492,38 @@ export const Stores: React.FC = () => {
                   currentRecords.map((s, index) => {
                     const displayIndex = indexOfFirstRecord + index + 1;
                     return (
-                      <tr key={s.id} className="border-b border-slate-100 hover:bg-slate-50/50 text-xs">
-                        <td className="text-center font-medium text-slate-450">{displayIndex}</td>
-                        <td className="font-semibold text-slate-800">
+                      <tr key={s.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
+                        <td className="text-center font-medium text-slate-400 py-3.5">{displayIndex}</td>
+                        <td className="font-bold text-slate-900">
                           <button
                             onClick={() => handleNavigateToDetail(s)}
-                            className="text-blue-600 hover:underline hover:text-blue-800 font-semibold text-left"
+                            className="text-blue-600 hover:underline font-bold text-left"
                             type="button"
                           >
                             {s.name}
                           </button>
                         </td>
-                        <td className="text-slate-500 max-w-[200px] truncate" title={s.address}>
+                        <td className="text-slate-600 max-w-[200px] truncate" title={s.address}>
                           {s.address || "---"}
                         </td>
-                        <td className="text-slate-500">{s.phone || "---"}</td>
-                        <td className="font-medium">{formatNumber(s.investment_capital)}</td>
+                        <td className="text-slate-600 font-medium">{s.phone || "---"}</td>
+                        <td className="font-bold text-emerald-600">{formatNumber(s.investment_capital)} đ</td>
                         <td className="text-slate-500">{formatDate(s.created_at)}</td>
                         <td>
-                          <span className={`badge font-medium badge-xs py-2 px-2 border-none uppercase ${
+                          <span className={`badge badge-sm font-bold text-[10px] uppercase border-none px-2 rounded-lg ${
                             s.status === "active" 
                               ? "bg-emerald-500 text-white" 
                               : "bg-slate-100 text-slate-500"
                           }`}>
-                            {s.status === "active" ? "Hoạt động" : "Đã tạm dừng"}
+                            {s.status === "active" ? "Hoạt động" : "Tạm dừng"}
                           </span>
                         </td>
-                        <td className="py-2.5">
+                        <td className="py-3 pr-4">
                           <div className="flex items-center justify-center gap-1.5">
                             {/* Switch active store */}
                             <button
                               onClick={() => handleSwitchStore(s)}
-                              className="btn btn-outline border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50 text-indigo-600 btn-xs rounded p-1"
+                              className="btn btn-ghost btn-circle btn-xs text-indigo-600 hover:bg-indigo-50"
                               type="button"
                               title="Làm việc tại chi nhánh này"
                             >
@@ -507,7 +533,7 @@ export const Stores: React.FC = () => {
                             {/* Edit store configs */}
                             <button
                               onClick={() => handleOpenEdit(s)}
-                              className="btn btn-outline border-sky-200 hover:border-sky-400 hover:bg-sky-50 text-sky-600 btn-xs rounded p-1"
+                              className="btn btn-ghost btn-circle btn-xs text-sky-600 hover:bg-sky-50"
                               type="button"
                               title="Chỉnh sửa chi nhánh"
                             >
@@ -517,7 +543,7 @@ export const Stores: React.FC = () => {
                             {/* Delete store */}
                             <button
                               onClick={(e) => handleDelete(s, e)}
-                              className="btn btn-outline border-red-200 hover:border-red-400 hover:bg-red-50 text-red-500 btn-xs rounded p-1"
+                              className="btn btn-ghost btn-circle btn-xs text-rose-500 hover:bg-rose-50"
                               type="button"
                               title="Xóa chi nhánh"
                             >
@@ -535,7 +561,7 @@ export const Stores: React.FC = () => {
         )}
 
         {/* Pagination Footer */}
-        <div className="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+        <div className="p-4 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/80">
           <div className="text-xs text-slate-500 font-medium">
             Hiển thị {totalRecords === 0 ? "0/0" : `${indexOfFirstRecord + 1}-${Math.min(indexOfLastRecord, totalRecords)}/${totalRecords}`} bản ghi
           </div>
@@ -547,7 +573,7 @@ export const Stores: React.FC = () => {
               <select 
                 value={limit} 
                 onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }} 
-                className="select select-bordered select-xs bg-white text-slate-800 border-slate-200 focus:outline-none rounded-lg h-[24px] min-h-[24px]"
+                className="select select-bordered select-xs bg-white text-slate-800 border-slate-200 focus:outline-none rounded-lg h-[28px] min-h-[28px]"
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -562,7 +588,7 @@ export const Stores: React.FC = () => {
                 <button 
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
-                  className="btn btn-outline border-slate-200 hover:bg-slate-50 btn-xs rounded-lg px-2 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
+                  className="btn btn-outline border-slate-200 hover:bg-slate-100 btn-xs rounded-lg px-2.5 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
                   type="button"
                 >
                   Trước
@@ -573,8 +599,8 @@ export const Stores: React.FC = () => {
                     onClick={() => setPage(i + 1)}
                     className={`btn btn-xs rounded-lg px-2.5 ${
                       page === i + 1 
-                        ? "btn-primary bg-emerald-500 border-none text-white hover:bg-emerald-600" 
-                        : "btn-outline border-slate-200 hover:bg-slate-50 text-slate-600 bg-white"
+                        ? "btn-primary bg-emerald-600 border-none text-white hover:bg-emerald-700" 
+                        : "btn-outline border-slate-200 hover:bg-slate-100 text-slate-600 bg-white"
                     }`}
                     type="button"
                   >
@@ -584,7 +610,7 @@ export const Stores: React.FC = () => {
                 <button 
                   disabled={page === totalPages}
                   onClick={() => setPage(page + 1)}
-                  className="btn btn-outline border-slate-200 hover:bg-slate-50 btn-xs rounded-lg px-2 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
+                  className="btn btn-outline border-slate-200 hover:bg-slate-100 btn-xs rounded-lg px-2.5 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
                   type="button"
                 >
                   Sau

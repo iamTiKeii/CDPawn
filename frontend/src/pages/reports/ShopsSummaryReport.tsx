@@ -8,6 +8,8 @@ import {
   Printer,
   ChevronDown,
   FileSpreadsheet,
+  Building2,
+  Store,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { DateRangePicker } from "../../components/shared/DateRangePicker";
@@ -101,6 +103,8 @@ export const ShopsSummaryReport: React.FC = () => {
   const totalInstallment = data.reduce((sum, item) => sum + Number(item.installment_lending || 0), 0);
   const totalExpectedInterest = data.reduce((sum, item) => sum + Number(item.expected_interest || 0), 0);
   const totalCollectedInterest = data.reduce((sum, item) => sum + Number(item.collected_interest || 0), 0);
+
+  const totalLending = totalPawn + totalUnsecured + totalInstallment;
 
   const handleExportHTML = () => {
     const tableRowsHTML = data.length === 0
@@ -196,7 +200,7 @@ export const ShopsSummaryReport: React.FC = () => {
 
         <div class="signature-section">
             <div class="signature-box"><div class="role">NGƯỜI LẬP BIỂU</div><div class="note">(Ký, ghi rõ họ tên)</div></div>
-            <div class="signature-box"><div class="role">KẾ TOÁN TRƯỞNG</div><div class="note">(Ký, ghi rõ họ tên)</div></div>
+            <div class="signature-box"><div class="role">KẾ TOÁN TRƯỜNG</div><div class="note">(Ký, ghi rõ họ tên)</div></div>
             <div class="signature-box"><div class="role">GIÁM ĐỐC</div><div class="note">(Ký, đóng dấu, họ tên)</div></div>
         </div>
     </div>
@@ -272,7 +276,7 @@ export const ShopsSummaryReport: React.FC = () => {
             <td class="text-right" style="mso-number-format:'#,##0';">${Number(totalCollectedInterest)}</td>
         </tr>` : ""}
         <tr><td colspan="9" style="height: 30px;"></td></tr>
-        <tr><td colspan="3" class="text-center font-bold">NGƯỜI LẬP BIỂU</td><td colspan="3" class="text-center font-bold">KẾ TOÁN TRƯỞNG</td><td colspan="3" class="text-center font-bold">GIÁM ĐỐC</td></tr>
+        <tr><td colspan="3" class="text-center font-bold">NGƯỜI LẬP BIỂU</td><td colspan="3" class="text-center font-bold">KẾ TOÁN TRƯỜNG</td><td colspan="3" class="text-center font-bold">GIÁM ĐỐC</td></tr>
     </table>
 </body>
 </html>`;
@@ -288,19 +292,27 @@ export const ShopsSummaryReport: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans">
-      {/* Title & Filters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-850 uppercase">
-            TỔNG QUÁT CÁC CỬA HÀNG
-          </h1>
-          <p className="text-slate-500 text-xs mt-1">
-            Báo cáo tổng hợp số liệu tài chính, quỹ tiền mặt và dư nợ giữa các chi nhánh
-          </p>
+    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans pb-10">
+      
+      {/* ── Title Banner & Filter Actions ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4 transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
+            <Building2 className="w-7 h-7" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
+              BÁO CÁO TỔNG QUÁT CHUỖI CỬA HÀNG
+            </h1>
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+              <span>Báo cáo tổng hợp số liệu tài chính, quỹ tiền mặt và dư nợ giữa các chi nhánh</span>
+              <span>•</span>
+              <span>Tổng số cửa hàng: <strong className="text-slate-700">{data.length}</strong></span>
+            </p>
+          </div>
         </div>
 
-        {/* Date Filter & Export */}
+        {/* Date Filter & Export Actions */}
         <div className="flex flex-wrap items-center gap-3">
           <DateRangePicker
             startDate={startDate}
@@ -315,9 +327,9 @@ export const ShopsSummaryReport: React.FC = () => {
             type="button"
             onClick={fetchData}
             disabled={loading}
-            className="btn btn-ghost btn-sm rounded-xl text-slate-500 hover:bg-slate-50 flex items-center gap-1.5"
+            className="btn btn-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-none rounded-xl font-medium px-4 transition-all flex items-center gap-1.5"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-amber-500" : ""}`} />
+            <RefreshCw className={`w-4 h-4 text-slate-500 ${loading ? "animate-spin text-amber-500" : ""}`} />
             <span>Làm Mới</span>
           </button>
 
@@ -326,7 +338,7 @@ export const ShopsSummaryReport: React.FC = () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-sm bg-blue-900 hover:bg-blue-950 text-white rounded-xl flex items-center gap-1.5 shadow-sm"
+              className="btn btn-sm bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black text-white rounded-xl flex items-center gap-1.5 shadow-sm border-none font-semibold px-4"
             >
               <Download className="w-4 h-4" />
               <span>Xuất Báo Cáo</span>
@@ -334,7 +346,7 @@ export const ShopsSummaryReport: React.FC = () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu p-2 shadow-xl bg-white border border-slate-200 rounded-2xl w-48 z-[50] mt-1 space-y-1"
+              className="dropdown-content menu p-2 shadow-xl bg-white border border-slate-200 rounded-2xl w-48 z-[50] mt-2 space-y-1"
             >
               <li>
                 <button
@@ -362,29 +374,83 @@ export const ShopsSummaryReport: React.FC = () => {
       </div>
 
       {error && (
-        <div className="alert alert-error text-xs p-3 rounded-xl border border-red-200 bg-red-50 text-red-800 flex items-start gap-2 shadow-sm">
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-650" />
+        <div className="alert alert-error text-xs p-3 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800 flex items-start gap-2 shadow-sm">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Main Table Card */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
+      {/* ── 5 TOP SUMMARY METRIC CARDS ── */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {/* Quỹ tiền mặt */}
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">QUỸ TIỀN MẶT</span>
+          <div className="mt-2">
+            <h3 className="text-xl font-black text-purple-700 tracking-tight">
+              {formatNumber(totalCash)} <span className="text-xs text-purple-500">đ</span>
+            </h3>
+          </div>
+        </div>
+
+        {/* Vốn đầu tư */}
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">VỐN ĐẦU TƯ</span>
+          <div className="mt-2">
+            <h3 className="text-xl font-black text-amber-600 tracking-tight">
+              {formatNumber(totalInvestment)} <span className="text-xs text-amber-500">đ</span>
+            </h3>
+          </div>
+        </div>
+
+        {/* Tổng Dư Nợ Cho Vay */}
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">TỔNG CHO VAY</span>
+          <div className="mt-2">
+            <h3 className="text-xl font-black text-blue-600 tracking-tight">
+              {formatNumber(totalLending)} <span className="text-xs text-blue-400">đ</span>
+            </h3>
+          </div>
+        </div>
+
+        {/* Lãi Dự Kiến */}
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LÃI DỰ KIẾN</span>
+          <div className="mt-2">
+            <h3 className="text-xl font-black text-indigo-600 tracking-tight">
+              {formatNumber(totalExpectedInterest)} <span className="text-xs text-indigo-400">đ</span>
+            </h3>
+          </div>
+        </div>
+
+        {/* Lãi Đã Thu */}
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LÃI ĐÃ THU</span>
+          <div className="mt-2">
+            <h3 className="text-xl font-black text-emerald-600 tracking-tight">
+              {formatNumber(totalCollectedInterest)} <span className="text-xs text-emerald-500">đ</span>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      {/* ── MAIN DATA TABLE CARD ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm">
         {loading ? (
-          <div className="flex justify-center p-16">
-            <span className="loading loading-spinner loading-lg text-emerald-500"></span>
+          <div className="flex flex-col items-center justify-center min-h-[350px] gap-3">
+            <span className="loading loading-spinner loading-lg text-amber-500"></span>
+            <span className="text-xs text-slate-500 font-medium">Đang tải dữ liệu báo cáo cửa hàng...</span>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="table w-full text-slate-700">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200/80 text-slate-500 text-xs font-semibold">
-                  <th className="w-12 text-center text-[11px]">#</th>
+                <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase">
+                  <th className="w-12 text-center py-3.5">#</th>
                   
                   {/* Sortable Store Name */}
                   <th 
                     onClick={() => handleSort("name")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5"
                   >
                     <div className="flex items-center gap-1">
                       <span>Tên cửa hàng</span>
@@ -395,9 +461,9 @@ export const ShopsSummaryReport: React.FC = () => {
                   {/* Sortable Cash */}
                   <th 
                     onClick={() => handleSort("current_cash")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5 text-right"
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-end gap-1">
                       <span>Quỹ tiền mặt</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
@@ -406,9 +472,9 @@ export const ShopsSummaryReport: React.FC = () => {
                   {/* Sortable Capital */}
                   <th 
                     onClick={() => handleSort("investment_capital")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5 text-right"
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-end gap-1">
                       <span>Vốn đầu tư</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
@@ -417,9 +483,9 @@ export const ShopsSummaryReport: React.FC = () => {
                   {/* Sortable Pawn Lending */}
                   <th 
                     onClick={() => handleSort("pawn_lending")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5 text-right"
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-end gap-1">
                       <span>Cho vay Cầm Đồ</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
@@ -428,9 +494,9 @@ export const ShopsSummaryReport: React.FC = () => {
                   {/* Sortable Unsecured Lending */}
                   <th 
                     onClick={() => handleSort("unsecured_lending")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5 text-right"
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-end gap-1">
                       <span>Cho Tín Chấp</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
@@ -439,19 +505,19 @@ export const ShopsSummaryReport: React.FC = () => {
                   {/* Sortable Installment Lending */}
                   <th 
                     onClick={() => handleSort("installment_lending")}
-                    className="cursor-pointer hover:bg-slate-100/50 py-3 text-[11px]"
+                    className="cursor-pointer hover:bg-slate-100/50 py-3.5 text-right"
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-end gap-1">
                       <span>Cho vay Trả Góp</span>
                       <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
                     </div>
                   </th>
 
-                  <th className="text-[11px] py-3">Lài dự kiến</th>
-                  <th className="text-[11px] py-3">Lãi đã thu</th>
+                  <th className="py-3.5 text-right">Lãi dự kiến</th>
+                  <th className="py-3.5 text-right pr-4">Lãi đã thu</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="text-xs">
                 {currentRecords.length === 0 ? (
                   <tr>
                     <td colSpan={9} className="text-center py-16 bg-white text-slate-400 text-xs">
@@ -463,31 +529,34 @@ export const ShopsSummaryReport: React.FC = () => {
                     {currentRecords.map((item, index) => {
                       const displayIndex = indexOfFirstRecord + index + 1;
                       return (
-                        <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/50 text-xs text-slate-700">
-                          <td className="text-center font-medium text-slate-450">{displayIndex}</td>
-                          <td className="font-semibold text-slate-800">{item.name}</td>
-                          <td>{formatNumber(item.current_cash)}</td>
-                          <td>{formatNumber(item.investment_capital)}</td>
-                          <td>{formatNumber(item.pawn_lending)}</td>
-                          <td>{formatNumber(item.unsecured_lending)}</td>
-                          <td>{formatNumber(item.installment_lending)}</td>
-                          <td>{formatNumber(item.expected_interest)}</td>
-                          <td>{formatNumber(item.collected_interest)}</td>
+                        <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors text-xs text-slate-700">
+                          <td className="text-center font-medium text-slate-400 py-3.5">{displayIndex}</td>
+                          <td className="font-bold text-slate-900 flex items-center gap-2 py-3.5">
+                            <Store className="w-4 h-4 text-amber-500 shrink-0" />
+                            <span>{item.name}</span>
+                          </td>
+                          <td className="text-right font-bold text-purple-700">{formatNumber(item.current_cash)}</td>
+                          <td className="text-right font-semibold text-amber-600">{formatNumber(item.investment_capital)}</td>
+                          <td className="text-right font-semibold text-blue-600">{formatNumber(item.pawn_lending)}</td>
+                          <td className="text-right font-semibold text-indigo-600">{formatNumber(item.unsecured_lending)}</td>
+                          <td className="text-right font-semibold text-teal-600">{formatNumber(item.installment_lending)}</td>
+                          <td className="text-right font-bold text-slate-700">{formatNumber(item.expected_interest)}</td>
+                          <td className="text-right font-bold text-emerald-600 pr-4">{formatNumber(item.collected_interest)}</td>
                         </tr>
                       );
                     })}
 
-                    {/* Bold Total Row styled in red text at the bottom */}
-                    <tr className="bg-white hover:bg-slate-50/80 font-bold text-red-500 text-xs border-t-2 border-slate-200">
-                      <td className="text-center">{totalRecords + 1}</td>
-                      <td className="font-bold text-red-500">Tổng</td>
-                      <td>{formatNumber(totalCash)}</td>
-                      <td>{formatNumber(totalInvestment)}</td>
-                      <td>{formatNumber(totalPawn)}</td>
-                      <td>{formatNumber(totalUnsecured)}</td>
-                      <td>{formatNumber(totalInstallment)}</td>
-                      <td>{formatNumber(totalExpectedInterest)}</td>
-                      <td>{formatNumber(totalCollectedInterest)}</td>
+                    {/* Bold Total Row styled with red text at the bottom */}
+                    <tr className="bg-slate-50/80 hover:bg-slate-100/80 font-bold text-rose-600 text-xs border-t-2 border-slate-200">
+                      <td className="text-center py-4">{totalRecords + 1}</td>
+                      <td className="font-extrabold text-rose-600 uppercase">Tổng cộng</td>
+                      <td className="text-right text-rose-600 font-extrabold">{formatNumber(totalCash)}</td>
+                      <td className="text-right text-rose-600 font-extrabold">{formatNumber(totalInvestment)}</td>
+                      <td className="text-right text-rose-600 font-extrabold">{formatNumber(totalPawn)}</td>
+                      <td className="text-right text-rose-600 font-extrabold">{formatNumber(totalUnsecured)}</td>
+                      <td className="text-right text-rose-600 font-extrabold">{formatNumber(totalInstallment)}</td>
+                      <td className="text-right text-rose-600 font-extrabold">{formatNumber(totalExpectedInterest)}</td>
+                      <td className="text-right text-rose-600 font-extrabold pr-4">{formatNumber(totalCollectedInterest)}</td>
                     </tr>
                   </>
                 )}
@@ -497,9 +566,9 @@ export const ShopsSummaryReport: React.FC = () => {
         )}
 
         {/* Pagination Footer */}
-        <div className="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+        <div className="p-4 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/80">
           <div className="text-xs text-slate-500 font-medium">
-            Hiển thị {totalRecords}/{totalRecords} bản ghi
+            Hiển thị {currentRecords.length}/{totalRecords} cửa hàng
           </div>
 
           <div className="flex items-center gap-4">
@@ -509,7 +578,7 @@ export const ShopsSummaryReport: React.FC = () => {
               <select 
                 value={limit} 
                 onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }} 
-                className="select select-bordered select-xs bg-white text-slate-800 border-slate-200 focus:outline-none rounded-lg h-[24px] min-h-[24px]"
+                className="select select-bordered select-xs bg-white text-slate-800 border-slate-200 focus:outline-none rounded-lg h-[28px] min-h-[28px]"
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -524,7 +593,7 @@ export const ShopsSummaryReport: React.FC = () => {
                 <button 
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
-                  className="btn btn-outline border-slate-200 hover:bg-slate-50 btn-xs rounded-lg px-2 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
+                  className="btn btn-outline border-slate-200 hover:bg-slate-100 btn-xs rounded-lg px-2.5 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
                   type="button"
                 >
                   Trước
@@ -535,8 +604,8 @@ export const ShopsSummaryReport: React.FC = () => {
                     onClick={() => setPage(i + 1)}
                     className={`btn btn-xs rounded-lg px-2.5 ${
                       page === i + 1 
-                        ? "btn-primary bg-emerald-500 border-none text-white hover:bg-emerald-600" 
-                        : "btn-outline border-slate-200 hover:bg-slate-50 text-slate-600 bg-white"
+                        ? "btn-primary bg-emerald-600 border-none text-white hover:bg-emerald-700" 
+                        : "btn-outline border-slate-200 hover:bg-slate-100 text-slate-600 bg-white"
                     }`}
                     type="button"
                   >
@@ -546,7 +615,7 @@ export const ShopsSummaryReport: React.FC = () => {
                 <button 
                   disabled={page === totalPages}
                   onClick={() => setPage(page + 1)}
-                  className="btn btn-outline border-slate-200 hover:bg-slate-50 btn-xs rounded-lg px-2 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
+                  className="btn btn-outline border-slate-200 hover:bg-slate-100 btn-xs rounded-lg px-2.5 text-slate-600 disabled:bg-slate-50 disabled:text-slate-300"
                   type="button"
                 >
                   Sau

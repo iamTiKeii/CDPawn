@@ -378,33 +378,81 @@ export const CapitalContracts: React.FC = () => {
 
 
   return (
-    <div className="space-y-6 text-slate-800 animate-fade-in max-w-7xl mx-auto font-sans">
+    <div className="space-y-6 text-slate-800 animate-fade-in w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 font-sans pb-10">
       
-      {/* Title */}
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-slate-800 uppercase mt-2">
-          HỢP ĐỒNG GÓP VỐN
-        </h1>
+      {/* ── Title Header Banner ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
+            <Coins className="w-7 h-7" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
+              QUẢN LÝ HỢP ĐỒNG GÓP VỐN (NGUỒN VỐN)
+            </h1>
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+              <span>Theo dõi các khoản huy động nguồn vốn đầu tư và trả lãi định kỳ cho đối tác</span>
+              {activeStore && (
+                <>
+                  <span>•</span>
+                  <span className="font-bold text-slate-700">Chi nhánh: {activeStore.name}</span>
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={fetchContracts}
+            type="button"
+            className="btn btn-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-none rounded-xl font-medium px-4 transition-all flex items-center gap-1.5"
+          >
+            <Filter className={`w-4 h-4 text-slate-500 ${loading ? "animate-spin" : ""}`} />
+            Làm mới
+          </button>
+        </div>
       </div>
 
-      {/* Filter / Action bar */}
-      <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      {/* ── TOP KPI SUMMARY CARDS ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tổng vốn đang đầu tư</div>
+          <div className="text-2xl font-black text-blue-600 mt-1">{formatNumber(totalAmountSum)} <span className="text-xs font-bold text-slate-400">đ</span></div>
+          <div className="text-[11px] text-slate-400 mt-1">Nguồn vốn hợp đồng đang hoạt động</div>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tổng số hợp đồng</div>
+          <div className="text-2xl font-black text-slate-800 mt-1">{filtered.length} <span className="text-xs font-bold text-slate-400">HĐ</span></div>
+          <div className="text-[11px] text-slate-400 mt-1">Hợp đồng góp vốn khả dụng</div>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tổng lãi đã trả</div>
+          <div className="text-2xl font-black text-emerald-600 mt-1">{formatNumber(totalInterestPaidSum)} <span className="text-xs font-bold text-slate-400">đ</span></div>
+          <div className="text-[11px] text-slate-400 mt-1">Chi phí lãi đã chi trả nhà đầu tư</div>
+        </div>
+      </div>
+
+      {/* ── FILTER / ACTION TOOLBAR ── */}
+      <div className="bg-white border border-slate-200/80 p-4 rounded-3xl shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         <div className="flex-1 flex flex-col sm:flex-row gap-3">
           
           {/* Search query box */}
           <input
             type="text"
-            placeholder="Tìm theo Mã HĐ, Tên, SĐT, CCCD"
+            placeholder="Tìm theo Tên, SĐT, CCCD nhà đầu tư..."
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
-            className="input input-bordered input-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg placeholder-slate-350 sm:max-w-md w-full"
+            className="input input-sm bg-slate-50 border-slate-200 focus:bg-white focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-xl flex-1 w-full"
           />
 
           {/* Status filter dropdown */}
           <select
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-            className="select select-bordered select-sm bg-white border-slate-200 focus:outline-none focus:border-emerald-500 text-slate-700 text-xs rounded-lg h-[32px] min-h-[32px] w-full sm:w-56"
+            className="select select-sm select-bordered bg-slate-50 border-slate-200 focus:outline-none focus:border-blue-500 text-slate-800 text-xs rounded-xl h-[32px] min-h-[32px] w-full sm:w-56"
           >
             <option value="active">Tất cả hợp đồng đang vay</option>
             <option value="completed">Tất cả hợp đồng đã tất toán</option>
@@ -418,26 +466,26 @@ export const CapitalContracts: React.FC = () => {
           {/* Filter Button */}
           <button
             onClick={fetchContracts}
-            className="btn btn-outline border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50 text-indigo-650 btn-sm rounded-lg text-xs font-semibold px-3 flex items-center gap-1.5 h-[32px] min-h-[32px]"
+            className="btn btn-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-none rounded-xl text-xs font-bold px-3.5 flex items-center gap-1.5"
             type="button"
           >
-            <Filter className="w-3.5 h-3.5" />
+            <Filter className="w-3.5 h-3.5 text-slate-500" />
             <span>Lọc</span>
           </button>
 
           {/* Add New Button */}
           <button
             onClick={handleOpenCreate}
-            className="btn btn-primary bg-emerald-500 hover:bg-emerald-600 border-none text-white btn-sm rounded-lg font-medium px-4 text-xs h-[32px] min-h-[32px] shadow-sm flex items-center justify-center gap-1"
+            className="btn btn-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border-none text-white font-bold rounded-xl px-4 text-xs shadow-sm shadow-emerald-500/20 flex items-center justify-center gap-1"
             type="button"
           >
             <Plus className="w-4 h-4" />
-            <span>Thêm mới</span>
+            <span>Thêm mới HĐ</span>
           </button>
 
           {/* Export Excel Button */}
           <button
-            className="btn btn-primary bg-blue-700 hover:bg-blue-800 border-none text-white btn-sm rounded-lg font-medium px-3 text-xs h-[32px] min-h-[32px] shadow-sm flex items-center justify-center gap-1.5"
+            className="btn btn-sm bg-blue-600 hover:bg-blue-700 border-none text-white font-bold rounded-xl px-3.5 text-xs shadow-sm flex items-center justify-center gap-1.5"
             type="button"
             onClick={() => window.alert("Tính năng Xuất Excel đang được thiết lập!")}
           >
@@ -447,10 +495,8 @@ export const CapitalContracts: React.FC = () => {
         </div>
       </div>
 
-
-
-      {/* Contracts Main Table List */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
+      {/* ── CONTRACTS MAIN TABLE LIST CARD ── */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm">
         {loading ? (
           <div className="flex justify-center p-16">
             <span className="loading loading-spinner loading-lg text-emerald-500"></span>

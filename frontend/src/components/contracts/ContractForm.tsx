@@ -188,7 +188,7 @@ export const ContractForm: React.FC<ContractFormProps> = ({
 
   return createPortal(
     <div className="modal modal-open z-[9999]">
-      <div className="modal-box bg-white border border-slate-200 text-slate-800 rounded-2xl max-w-6xl p-6 relative">
+      <div className="modal-box bg-white border border-slate-200 text-slate-800 rounded-3xl w-11/12 max-w-[1450px] p-6 relative">
         {/* Modal Header */}
         <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
           <h3 className="font-extrabold text-base text-slate-800 uppercase">

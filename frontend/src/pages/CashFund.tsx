@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Wallet, History, ArrowUpRight, ArrowDownRight, RefreshCw, CalendarRange, X } from "lucide-react";
 import { toast } from "../lib/toast";
 import { MoneyInput } from "../components/shared/MoneyInput";
+import { formatTransactionType } from "../utils/transactionUtils";
 
 interface CashHistory {
   id: string;
@@ -241,7 +242,7 @@ export const CashFund: React.FC = () => {
                       </td>
                       <td>
                         <span className="badge badge-outline border-slate-200 text-slate-500 font-bold badge-sm uppercase">
-                          {log.type}
+                          {formatTransactionType(log.type)}
                         </span>
                       </td>
                       <td className="text-slate-500 max-w-sm truncate">{log.description}</td>
