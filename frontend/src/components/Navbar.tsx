@@ -135,7 +135,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isCustomerActive = path === "/customer-list";
 
 
-  const isStoreManageActive = ["/summary-report-shop", "/shop-detail", "/shop-list", "/category-list", "/cash-fund", "/settings"].some((p) => path.startsWith(p));
+  const isStoreManageActive = ["/summary-report-shop", "/shop-detail", "/shop-list", "/category-list", "/interest-types", "/cash-fund", "/settings"].some((p) => path.startsWith(p));
+
   const isCashflowManageActive = ["/manage-expense", "/manage-income", "/contract/capital"].some((p) => path.startsWith(p));
   const isStaffManageActive = ["/staff", "/staff-permission", "/collaborator"].some((p) => path.startsWith(p));
   const isReportsActive = [
@@ -468,6 +469,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </Link>
                   </li>
                 )}
+                {hasPermission("INTEREST_TYPES_MANAGE") && (
+                  <li>
+                    <Link
+                      to="/interest-types"
+                      className={`flex items-center gap-2.5 py-2 px-3 text-xs rounded-xl transition-all ${
+                        path === "/interest-types" ? "bg-amber-500/10 text-amber-600 font-semibold" : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                    >
+                      <Settings className="w-4 h-4 text-slate-400" />
+                      <span>Hình thức lãi</span>
+                    </Link>
+                  </li>
+                )}
+
                 {hasPermission("FUNDS_MANAGE") && (
                   <li>
                     <Link

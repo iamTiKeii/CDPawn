@@ -29,6 +29,8 @@ router.get("/overview", requirePermission([
   "REPORT_HANDOVER",
   "REPORT_DAILY_CASH",
   "REPORT_COLLABORATORS",
+  "STORES_DETAIL",
+  "STORES_MANAGE",
 ]) as any, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const today = normalizeToMidnight(new Date());
@@ -38,7 +40,7 @@ router.get("/overview", requirePermission([
 
     const result = [];
     for (const branch of stores) {
-      // Quỹ tiền mặt (current cash)
+      // 1. Quỹ tiền mặt (current cash)
       const dailyCash = await prisma.dailyCash.findUnique({
         where: {
           branch_id_date: {
@@ -61,21 +63,21 @@ router.get("/overview", requirePermission([
         }
       }
 
-      // Cho vay Cầm đồ
+      // 2. Cho vay Cầm đồ
       const pawnSum = await prisma.pawnContract.aggregate({
         where: { branch_id: branch.id, status: { in: ["active", "overdue"] } },
         _sum: { loan_amount: true },
       });
       const pawnLending = Number(pawnSum._sum.loan_amount || 0);
 
-      // Cho Tín chấp
+      // 3. Cho Tín chấp
       const unsecuredSum = await prisma.unsecuredContract.aggregate({
         where: { branch_id: branch.id, status: { in: ["active", "overdue"] } },
         _sum: { loan_amount: true },
       });
       const unsecuredLending = Number(unsecuredSum._sum.loan_amount || 0);
 
-      // Cho Trả góp
+      // 4. Cho Trả góp
       const installmentContracts = await prisma.installmentContract.findMany({
         where: { branch_id: branch.id, status: { in: ["active", "overdue"] } },
         include: { payments: true },
@@ -89,40 +91,143 @@ router.get("/overview", requirePermission([
         installmentLending += Math.max(0, totalRepay - totalPaid);
       }
 
-      // Lãi dự kiến
-      const pawnExpected = await prisma.pawnInterestPayment.aggregate({
-        where: { contract: { branch_id: branch.id }, is_paid: false },
-        _sum: { expected_interest: true },
+      // 5. Số lượng hợp đồng mở / đóng
+      const activePawnCount = await prisma.pawnContract.count({
+        where: { branch_id: branch.id, status: { in: ["active", "overdue"] } }
       });
-      const unsecuredExpected = await prisma.unsecuredInterestPayment.aggregate({
-        where: { contract: { branch_id: branch.id }, is_paid: false },
-        _sum: { expected_interest: true },
+      const closedPawnCount = await prisma.pawnContract.count({
+        where: { branch_id: branch.id, status: "closed" }
       });
-      const expectedInterest = Number(pawnExpected._sum.expected_interest || 0) + 
-                               Number(unsecuredExpected._sum.expected_interest || 0);
 
-      // Lãi đã thu
-      const pawnPaid = await prisma.pawnInterestPayment.aggregate({
+      const activeUnsecuredCount = await prisma.unsecuredContract.count({
+        where: { branch_id: branch.id, status: { in: ["active", "overdue"] } }
+      });
+      const closedUnsecuredCount = await prisma.unsecuredContract.count({
+        where: { branch_id: branch.id, status: "closed" }
+      });
+
+      const activeInstallmentCount = await prisma.installmentContract.count({
+        where: { branch_id: branch.id, status: { in: ["active", "overdue"] } }
+      });
+      const closedInstallmentCount = await prisma.installmentContract.count({
+        where: { branch_id: branch.id, status: "closed" }
+      });
+
+      // 6. Lãi dự kiến & Lãi đã thu theo từng phân hệ
+      // Cầm đồ
+      const pawnExpectedAgg = await prisma.pawnInterestPayment.aggregate({
+        where: { contract: { branch_id: branch.id } },
+        _sum: { expected_interest: true },
+      });
+      const expectedPawnInterest = Number(pawnExpectedAgg._sum.expected_interest || 0);
+
+      const pawnPaidAgg = await prisma.pawnInterestPayment.aggregate({
         where: { contract: { branch_id: branch.id }, is_paid: true },
         _sum: { actual_paid: true },
       });
-      const unsecuredPaid = await prisma.unsecuredInterestPayment.aggregate({
+      const collectedPawnInterest = Number(pawnPaidAgg._sum.actual_paid || 0);
+
+      const pawnDebtAgg = await prisma.pawnContract.aggregate({
+        where: { branch_id: branch.id, status: { in: ["active", "overdue"] } },
+        _sum: { debt_amount: true },
+      });
+      const debtPawnAmount = Number(pawnDebtAgg._sum.debt_amount || 0);
+
+      // Tín chấp
+      const unsecuredExpectedAgg = await prisma.unsecuredInterestPayment.aggregate({
+        where: { contract: { branch_id: branch.id } },
+        _sum: { expected_interest: true },
+      });
+      const expectedUnsecuredInterest = Number(unsecuredExpectedAgg._sum.expected_interest || 0);
+
+      const unsecuredPaidAgg = await prisma.unsecuredInterestPayment.aggregate({
         where: { contract: { branch_id: branch.id }, is_paid: true },
         _sum: { actual_paid: true },
       });
-      const collectedInterest = Number(pawnPaid._sum.actual_paid || 0) + 
-                                Number(unsecuredPaid._sum.actual_paid || 0);
+      const collectedUnsecuredInterest = Number(unsecuredPaidAgg._sum.actual_paid || 0);
+
+      const unsecuredDebtAgg = await prisma.unsecuredContract.aggregate({
+        where: { branch_id: branch.id, status: { in: ["active", "overdue"] } },
+        _sum: { debt_amount: true },
+      });
+      const debtUnsecuredAmount = Number(unsecuredDebtAgg._sum.debt_amount || 0);
+
+      // Trả góp
+      const installmentExpectedAgg = await prisma.installmentPayment.aggregate({
+        where: { contract: { branch_id: branch.id } },
+        _sum: { expected_amount: true },
+      });
+      const expectedInstallmentInterest = Number(installmentExpectedAgg._sum.expected_amount || 0);
+
+      const installmentPaidAgg = await prisma.installmentPayment.aggregate({
+        where: { contract: { branch_id: branch.id }, is_paid: true },
+        _sum: { actual_paid: true },
+      });
+      const collectedInstallmentInterest = Number(installmentPaidAgg._sum.actual_paid || 0);
+
+      const installmentDebtAgg = await prisma.installmentContract.aggregate({
+        where: { branch_id: branch.id, status: { in: ["active", "overdue"] } },
+        _sum: { debt_amount: true },
+      });
+      const debtInstallmentAmount = Number(installmentDebtAgg._sum.debt_amount || 0);
+
+      // 7. Tổng Thu / Chi từ Voucher
+      const expenseAgg = await prisma.paymentVoucher.aggregate({
+        where: { branch_id: branch.id, status: "active" },
+        _sum: { amount: true },
+      });
+      const totalExpense = Number(expenseAgg._sum.amount || 0);
+
+      const incomeAgg = await prisma.receiptVoucher.aggregate({
+        where: { branch_id: branch.id, status: "active" },
+        _sum: { amount: true },
+      });
+      const totalIncome = Number(incomeAgg._sum.amount || 0);
+
+      const totalDebt = debtPawnAmount + debtUnsecuredAmount + debtInstallmentAmount;
+      const expectedInterest = expectedPawnInterest + expectedUnsecuredInterest + expectedInstallmentInterest;
+      const collectedInterest = collectedPawnInterest + collectedUnsecuredInterest + collectedInstallmentInterest;
 
       result.push({
         id: branch.id,
         name: branch.name,
         investment_capital: Number(branch.investment_capital),
         current_cash: currentCash,
+
         pawn_lending: pawnLending,
         unsecured_lending: unsecuredLending,
         installment_lending: installmentLending,
+
         expected_interest: expectedInterest,
         collected_interest: collectedInterest,
+
+        // Pawn breakdown
+        expected_pawn_interest: expectedPawnInterest,
+        collected_pawn_interest: collectedPawnInterest,
+        debt_pawn_amount: debtPawnAmount,
+
+        // Unsecured breakdown
+        expected_unsecured_interest: expectedUnsecuredInterest,
+        collected_unsecured_interest: collectedUnsecuredInterest,
+        debt_unsecured_amount: debtUnsecuredAmount,
+
+        // Installment breakdown
+        expected_installment_interest: expectedInstallmentInterest,
+        collected_installment_interest: collectedInstallmentInterest,
+        debt_installment_amount: debtInstallmentAmount,
+
+        // Contract counts
+        active_pawn_count: activePawnCount,
+        closed_pawn_count: closedPawnCount,
+        active_unsecured_count: activeUnsecuredCount,
+        closed_unsecured_count: closedUnsecuredCount,
+        active_installment_count: activeInstallmentCount,
+        closed_installment_count: closedInstallmentCount,
+
+        // Income & Expense & Debt
+        total_expense: totalExpense,
+        total_income: totalIncome,
+        total_debt: totalDebt,
       });
     }
 

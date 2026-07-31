@@ -77,6 +77,7 @@ async function main() {
     { code: "STORES_DETAIL", name: "Thông tin chi tiết cửa hàng", category: "Quản lý cửa hàng", description: "Xem và sửa cấu hình chi tiết cửa hàng" },
     { code: "STORES_LIST", name: "Danh sách cửa hàng", category: "Quản lý cửa hàng", description: "Quản lý danh sách chi nhánh cửa hàng" },
     { code: "COMMODITIES_MANAGE", name: "Cấu hình hàng hóa", category: "Quản lý cửa hàng", description: "Quản lý danh mục loại tài sản, gói lãi" },
+    { code: "INTEREST_TYPES_MANAGE", name: "Cấu hình hình thức lãi", category: "Quản lý cửa hàng", description: "Tạo, sửa, xóa các hình thức tính lãi tùy chỉnh" },
     { code: "CASH_FUND_MANAGE", name: "Nhập tiền quỹ đầu ngày", category: "Quản lý cửa hàng", description: "Khai báo tiền mặt quỹ đầu ca/ngày, nạp rút két" },
 
     // 8. Quản lý thu chi

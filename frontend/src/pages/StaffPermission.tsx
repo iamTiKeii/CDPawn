@@ -126,9 +126,11 @@ const treeSchema: PermissionNode[] = [
       { code: "STORES_DETAIL", name: "Thông tin chi tiết cửa hàng" },
       { code: "STORES_LIST", name: "Danh sách cửa hàng" },
       { code: "COMMODITIES_MANAGE", name: "Cấu hình hàng hóa" },
+      { code: "INTEREST_TYPES_MANAGE", name: "Cấu hình hình thức lãi" },
       { code: "CASH_FUND_MANAGE", name: "Nhập tiền quỹ đầu ngày" },
     ]
   },
+
   {
     code: "VOUCHERS_GROUP",
     name: "Quản lý thu chi",

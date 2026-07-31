@@ -31,6 +31,8 @@ import { StaffPermission } from "../pages/StaffPermission";
 import { SettingsPage } from "../pages/SettingsPage";
 import { PublicContractLookup } from "../pages/PublicContractLookup";
 import { TermsPage } from "../pages/settings/TermsPage";
+import { InterestTypesPage } from "../pages/InterestTypesPage";
+
 
 // Pages — Reports
 import { ShopsSummaryReport } from "../pages/reports/ShopsSummaryReport";
@@ -86,6 +88,8 @@ const TITLE_MAP: Array<[string, string]> = [
   ["/cash", "Két tiền | CDPawn"],
   ["/commodities", "Danh mục hàng hóa | CDPawn"],
   ["/category-list", "Danh mục hàng hóa | CDPawn"],
+  ["/interest-types", "Hình thức lãi | CDPawn"],
+
   ["/vouchers", "Quản lý chứng từ | CDPawn"],
   ["/manage-expense", "Phiếu chi | CDPawn"],
   ["/manage-income", "Phiếu thu | CDPawn"],
@@ -155,6 +159,8 @@ export const AppRoutes: React.FC = () => (
       <Route path="/shop-detail" element={<PrivateLayout requiredPermission={["STORES_DETAIL", "STORES_MANAGE"]}><ShopDetail /></PrivateLayout>} />
       <Route path="/shop-list" element={<PrivateLayout requiredPermission="STORES_MANAGE"><Stores /></PrivateLayout>} />
       <Route path="/category-list" element={<PrivateLayout requiredPermission="SETTINGS_MANAGE"><Commodities /></PrivateLayout>} />
+      <Route path="/interest-types" element={<PrivateLayout requiredPermission="INTEREST_TYPES_MANAGE"><InterestTypesPage /></PrivateLayout>} />
+
       <Route path="/cash-fund" element={<PrivateLayout requiredPermission="FUNDS_MANAGE"><BeginningCash /></PrivateLayout>} />
       <Route path="/cash" element={<PrivateLayout requiredPermission="FUNDS_MANAGE"><CashFund /></PrivateLayout>} />
       <Route path="/stores" element={<Navigate to="/shop-list" replace />} />

@@ -68,7 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   useEffect(() => {
     const path = location.pathname;
     
-    const storePaths = ["/summary-report-shop", "/shop-detail", "/shop-list", "/category-list", "/cash-fund", "/settings"];
+    const storePaths = ["/summary-report-shop", "/shop-detail", "/shop-list", "/category-list", "/interest-types", "/cash-fund", "/settings"];
+
     const cashPaths = ["/manage-expense", "/manage-income"];
     const staffPaths = ["/staff", "/staff-permission", "/collaborator"];
     const reportPaths = [
@@ -277,6 +278,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
                       </Link>
                     </li>
                   )}
+                  {hasPermission("INTEREST_TYPES_MANAGE") && (
+                    <li>
+                      <Link
+                        to="/interest-types"
+                        className={`block py-1.5 px-3 text-xs rounded-lg transition-all ${
+                          location.pathname === "/interest-types" ? "text-amber-600 font-medium bg-amber-500/5" : "text-slate-500 hover:text-slate-950 hover:bg-slate-50/80"
+                        }`}
+                      >
+                        Hình thức lãi
+                      </Link>
+                    </li>
+                  )}
+
                   {hasPermission("FUNDS_MANAGE") && (
                     <li>
                       <Link
